@@ -9,19 +9,16 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 detection_graph, sess = detector_utils.load_inference_graph()
 
-video = cv2.VideoCapture(0)
+#video = cv2.VideoCapture(0)
 
 
 
-
-
-
-
-def timeToTest():
+def timeToTest(video):
+	print("Go inside timeToTest !!")
 	firstFramePosition = [0,0]
 	sideHeight = 0
 	sideWidth = 0
-	timeOut = time.time()+10
+	timeOut = time.time()+100000
 	num_hands_detect = 1;
 	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
 
@@ -102,13 +99,14 @@ def timeToTest():
 			continue
 		
 
-	video.release()
-	cv2.destroyAllWindows()
+	
 	direction = np.argmax(UpDownRightLeft)
+	#video.release()
+	#cv2.destroyAllWindows()
 	return direction
 
-ans = timeToTest()
-print(ans)
+#ans = timeToTest()
+#print(ans)
 #print(time.time())
 #time.sleep(3)
 #print(time.time())
