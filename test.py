@@ -208,7 +208,7 @@ def start():
 # window.bind("<Down>", lambda event: change(1))
 # window.bind("<Left>", lambda event: change(2))
 # window.bind("<Right>", lambda event: change(3))
-window.bind(<Return>, start)
+window.bind("<Return>", start)
 
 
 window.mainloop()
