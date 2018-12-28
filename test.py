@@ -199,14 +199,16 @@ result = canvas.create_text(
 # buttonRight = ttk.Button(window, text="Right", command=lambda:change(3))
 # buttonRight.grid(column=5, row=3)
 
+def start():
+    while True:
+        change(time_to_test())
 
 # bind the keyboard
 # window.bind("<Up>", lambda event: change(0))
 # window.bind("<Down>", lambda event: change(1))
 # window.bind("<Left>", lambda event: change(2))
 # window.bind("<Right>", lambda event: change(3))
+window.bind(<Return>, start)
 
-while True:
-    change(time_to_test())
 
 window.mainloop()
