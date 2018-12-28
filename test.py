@@ -56,7 +56,7 @@ wrong = 0
 # function for changing candidate
 def change(dire):
     if dire == 4:
-        return
+        return True
 
     global picpos, correct, wrong, pos, reverse, jump
     output = False
@@ -102,12 +102,13 @@ def change(dire):
     reset_light()
     if output:
         output_result()
-        return
+        return False
     # pick a new picture
     picpos = random.randint(0,3)
     # label.config(image=gifIm[picpos])
     # label.image = gifIm[picpos]
     canvas.itemconfig(label, image=gifIm[picpos])
+    return True
 
 def change_light(dire):
     if dire == 0:
@@ -200,8 +201,9 @@ result = canvas.create_text(
 # buttonRight.grid(column=5, row=3)
 
 def start():
+    testing = True
     while True:
-        change(time_to_test())
+        testing = change(time_to_test())
 
 # bind the keyboard
 # window.bind("<Up>", lambda event: change(0))

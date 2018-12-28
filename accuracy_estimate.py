@@ -2,19 +2,14 @@ import time
 import cv2
 import numpy as np
 from utils import detector_utils as detector_utils
-import keyboard
 import os
-import time
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
-detection_graph, sess = detector_utils.load_inference_graph()
+# detection_graph, sess = detector_utils.load_inference_graph()
 
-video = cv2.VideoCapture(0)
+# video = cv2.VideoCapture(0)
 
-
-
-
-
+print("hi!")
 
 
 def timeToTest():

@@ -83,15 +83,16 @@ def change(dire):
         if pos == 1 or pos == 0:
             pos = 0
             output = True
-        reverse = True
-        jump = 1
-        pos -= jump
-        update_pic_size()
-        correct = 0
-        wrong = 0
+        else:
+            reverse = True
+            jump = 1
+            pos -= jump
+            update_pic_size()
+            correct = 0
+            wrong = 0
             
     # window.update_idletasks()   # update the warning text
-    time.sleep(2)               # hold for two seconds
+    time.sleep(1)               # hold for two seconds
     # result.config(text="")
     canvas.itemconfig(result, text="")
     reset_light()
