@@ -1,26 +1,27 @@
-import time
 import cv2
 import numpy as np
 from utils import detector_utils as detector_utils
-import keyboard
 import os
-import time
+from time import sleep
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
 detection_graph, sess = detector_utils.load_inference_graph()
 
-#video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(0)
+
+
+
+
 
 
 
 def timeToTest(video):
-	print("Go inside timeToTest !!")
 	firstFramePosition = [0,0]
 	sideHeight = 0
 	sideWidth = 0
-	timeOut = time.time()+100000
 	num_hands_detect = 1;
 	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
+
 
 
 	while(True):
@@ -39,11 +40,9 @@ def timeToTest(video):
 	#tracker = cv2.TrackerTLD_create()
 	#ok = tracker.init(firstFrame, bbox)
 
-	while(True):
-		if time.time() >timeOut:
-			print("Time is Up")
-			break
+	while(not((UpDownRightLeft>30).any())):
 		ok, originalFrame = video.read()
+		txtScreen = "None"
 		if originalFrame is None:
 			break;
 		originalFrame = (np.fliplr(originalFrame)).copy()
@@ -51,58 +50,34 @@ def timeToTest(video):
 		originalFrame = cv2.cvtColor(originalFrame, cv2.COLOR_BGR2RGB)
 		boxes, scores = detector_utils.detect_objects(originalFrame, detection_graph, sess)
 		currentFramePosition, currentHeight, currentWidth = detector_utils.draw_box_on_image(num_hands_detect, 0.2, scores, boxes, w, h, originalFrame)		
-		if(currentHeight==0 or currentHeight==0):
-			cv2.putText(originalFrame, "Not Found Hand", (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
-			cv2.imshow("Security Feed", originalFrame)
-			key = cv2.waitKey(1) & 0xFF
-			continue
-		'''
-		ok, bbox = tracker.update(originalFrame)
-		if ok:
-			p1 = (int(bbox[0]),int(bbox[1]))
-			p2 = (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3]))
-			currentFramePosition[0] = bbox[1]
-			currentFramePosition[1] = bbox[0]
-			cv2.rectangle(originalFrame, p1, p2, (255,0,0),2)
-		'''
-
-
-		if firstFramePosition[0]-currentFramePosition[0]>sideHeight//2:
-			cv2.putText(originalFrame, "Up", (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
-			cv2.imshow("Security Feed", originalFrame)
-			key = cv2.waitKey(1) & 0xFF
-			UpDownRightLeft[0] = UpDownRightLeft[0]+1
-			continue
-		if currentFramePosition[0]-firstFramePosition[0]>sideHeight//2:
-			cv2.putText(originalFrame, "Down", (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
-			cv2.imshow("Security Feed", originalFrame)
-			key = cv2.waitKey(1) & 0xFF
-			UpDownRightLeft[1] = UpDownRightLeft[1]+1
-			continue
-		if firstFramePosition[1]-currentFramePosition[1]>sideWidth//2:
-			cv2.putText(originalFrame, "Left", (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
-			cv2.imshow("Security Feed", originalFrame)
-			key = cv2.waitKey(1) & 0xFF
-			UpDownRightLeft[2] = UpDownRightLeft[2]+1
-			continue
-		if currentFramePosition[1]-firstFramePosition[1]>sideWidth//2:
-			cv2.putText(originalFrame, "Right", (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
-			cv2.imshow("Security Feed", originalFrame)
-			key = cv2.waitKey(1) & 0xFF
-			UpDownRightLeft[3] = UpDownRightLeft[3]+1
-			continue
-		else:
-			cv2.putText(originalFrame, "Not Move", (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
-			cv2.imshow("Security Feed", originalFrame)
-			key = cv2.waitKey(1) & 0xFF
-			UpDownRightLeft[4] = UpDownRightLeft[4]+1
-			continue
 		
-
+		if(currentHeight==0 or currentHeight==0):
+			txtScreen = "Not Found Hand"
+		elif firstFramePosition[0]-currentFramePosition[0]>sideHeight//2:
+			txtScreen = "Up"
+			UpDownRightLeft[0] = UpDownRightLeft[0]+1
+		elif currentFramePosition[0]-firstFramePosition[0]>sideHeight//2:
+			txtScreen = "Down"
+			UpDownRightLeft[1] = UpDownRightLeft[1]+1
+		elif firstFramePosition[1]-currentFramePosition[1]>sideWidth//2:
+			txtScreen = "Left"
+			UpDownRightLeft[2] = UpDownRightLeft[2]+1
+		elif currentFramePosition[1]-firstFramePosition[1]>sideWidth//2:
+			txtScreen = "Right"
+			UpDownRightLeft[3] = UpDownRightLeft[3]+1
+		else:
+			txtScreen = "Not Move"
+			UpDownRightLeft[4] = UpDownRightLeft[4]+1
+		cv2.putText(originalFrame, txtScreen, (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
+		cv2.imshow("Security Feed", originalFrame)
+		key = cv2.waitKey(1) & 0xFF
+		sleep(0.1)
+		#print(UpDownRightLeft)
+		#print(np.where( UpDownRightLeft > 30 ))
 	
+	video.release()
+	cv2.destroyAllWindows()
 	direction = np.argmax(UpDownRightLeft)
-	#video.release()
-	#cv2.destroyAllWindows()
 	return direction
 
 #ans = timeToTest()
