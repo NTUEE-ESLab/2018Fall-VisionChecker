@@ -26,6 +26,9 @@ def timeToTest(video):
 
 	while(True):
 		ok, firstFrame = video.read()
+		if not ok:
+			print("Didnt Open Camera!")
+			break
 		h, w, ch = firstFrame.shape
 		firstFrame = (np.fliplr(firstFrame)).copy()
 		firstFrameRGB = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2RGB)
