@@ -78,8 +78,8 @@ def timeToTest(video):
 		#print(UpDownRightLeft)
 		#print(np.where( UpDownRightLeft > 30 ))
 	
-	video.release()
-	cv2.destroyAllWindows()
+	#video.release()
+	#cv2.destroyAllWindows()
 	direction = np.argmax(UpDownRightLeft)
 	return direction
 
