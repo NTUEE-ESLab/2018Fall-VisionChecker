@@ -1,12 +1,13 @@
 import cv2
 import numpy as np
 from utils import detector_utils as detector_utils
+from time import sleep
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
 detection_graph, sess = detector_utils.load_inference_graph()
 
-video = cv2.VideoCapture(0)
+# video = cv2.VideoCapture(0)
 
 
 def timeToTest(video):
@@ -77,8 +78,8 @@ def timeToTest(video):
 	direction = np.argmax(UpDownRightLeft)
 	return direction
 
-ans = timeToTest()
-print(ans)
+# ans = timeToTest()
+# print(ans)
 #print(time.time())
 #time.sleep(3)
 #print(time.time())

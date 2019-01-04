@@ -58,7 +58,7 @@ wrong = 0
 
 # function for changing candidate
 def change(dire):
-    print("start change. dire is", dire)
+    # print("start change. dire is", dire)
     if dire == 4:
         return True
 
@@ -74,9 +74,10 @@ def change(dire):
         canvas.itemconfig(result, text="Wrong!", fill="red")
         wrong += 1
     change_light(dire)
+    canvas.itemconfig(instruct, text="hand back to the middle")
 
     canvas.update()
-    print("warning and light loaded.")
+    # print("warning and light loaded.")
     
     if correct >= 3:
         if reverse or pos == 12:
@@ -102,9 +103,10 @@ def change(dire):
             
     # window.update_idletasks()   # update the warning text
     # time.sleep(2)               # hold for two seconds
-    time.sleep(1)               # hold for one seconds
+    time.sleep(1.5)               # hold for one seconds
     # result.config(text="")
     canvas.itemconfig(result, text="")
+    canvas.itemconfig(instruct, text="")
     reset_light()
     if output:
         output_result()
@@ -115,7 +117,7 @@ def change(dire):
     # label.image = gifIm[picpos]
     canvas.itemconfig(label, image=gifIm[picpos])
     canvas.update()
-    print("picture changed.")
+    # print("picture changed.")
     return True
 
 def change_light(dire):
@@ -191,6 +193,13 @@ result = canvas.create_text(
     text="",
     font=("Arial 25 bold")
     )
+instruct = canvas.create_text(
+    int(window_w*0.15), 
+    int(window_h*0.78), 
+    text="",
+    fill="black",
+    font=("Arial 18 bold")
+)
 # result = tk.Label(
 #         window, 
 #         text="",
@@ -210,10 +219,11 @@ result = canvas.create_text(
 # buttonRight.grid(column=5, row=3)
 
 def start():
-    while(True):
+    res = True
+    while(res):
         temp = timeToTest(video1)
         print("timeTotest is done, the direction is ",temp)
-        change(temp)
+        res = change(temp)
 
 # bind the keyboard
 # window.bind("<Up>", lambda event: change(0))
