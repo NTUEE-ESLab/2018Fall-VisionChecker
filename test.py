@@ -3,8 +3,11 @@ import tkinter.ttk as ttk
 from PIL import Image, ImageTk
 import random
 import time
-import accuracy_estimate
+from accuracy_estimate import timeToTest
+import cv2
+import threading
 
+video1 = cv2.VideoCapture(0)
 # build the window
 window = tk.Tk()
 window.title("Vision Checker")
@@ -55,6 +58,7 @@ wrong = 0
 
 # function for changing candidate
 def change(dire):
+    print("start change. dire is", dire)
     if dire == 4:
         return True
 
@@ -72,6 +76,7 @@ def change(dire):
     change_light(dire)
 
     canvas.update()
+    print("warning and light loaded.")
     
     if correct >= 3:
         if reverse or pos == 12:
@@ -87,12 +92,13 @@ def change(dire):
         if pos == 1 or pos == 0:
             pos = 0
             output = True
-        reverse = True
-        jump = 1
-        pos -= jump
-        update_pic_size()
-        correct = 0
-        wrong = 0
+        else:
+            reverse = True
+            jump = 1
+            pos -= jump
+            update_pic_size()
+            correct = 0
+            wrong = 0
             
     # window.update_idletasks()   # update the warning text
     # time.sleep(2)               # hold for two seconds
@@ -108,6 +114,8 @@ def change(dire):
     # label.config(image=gifIm[picpos])
     # label.image = gifIm[picpos]
     canvas.itemconfig(label, image=gifIm[picpos])
+    canvas.update()
+    print("picture changed.")
     return True
 
 def change_light(dire):
@@ -138,6 +146,7 @@ def output_result():
         width=20, height=7
         )
     result_text.pack()
+    window.update_idletasks()
     print("The result is", level[pos])
 
 # load the pictures
@@ -201,16 +210,20 @@ result = canvas.create_text(
 # buttonRight.grid(column=5, row=3)
 
 def start():
-    testing = True
-    while True:
-        testing = change(time_to_test())
+    while(True):
+        temp = timeToTest(video1)
+        print("timeTotest is done, the direction is ",temp)
+        change(temp)
 
 # bind the keyboard
 # window.bind("<Up>", lambda event: change(0))
 # window.bind("<Down>", lambda event: change(1))
 # window.bind("<Left>", lambda event: change(2))
 # window.bind("<Right>", lambda event: change(3))
-window.bind("<Return>", start)
+window.bind("<Return>", lambda event: start())
 
 
 window.mainloop()
+
+video1.release()
+cv2.destroyAllWindows()
