@@ -9,10 +9,6 @@ detection_graph, sess = detector_utils.load_inference_graph()
 video = cv2.VideoCapture(0)
 
 
-
-
-
-
 def timeToTest(video):
 	firstFramePosition = [0,0]
 	sideHeight = 0
