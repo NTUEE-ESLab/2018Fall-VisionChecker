@@ -22,7 +22,7 @@ def timeToTest(video):
 	while(True):
 		ok, firstFrame = video.read()
 		if not ok:
-			print("Didnt Open Camera!")
+			print("Did'nt Open Camera!")
 			break
 		h, w, ch = firstFrame.shape
 		firstFrame = (np.fliplr(firstFrame)).copy()
@@ -38,7 +38,7 @@ def timeToTest(video):
 	#tracker = cv2.TrackerTLD_create()
 	#ok = tracker.init(firstFrame, bbox)
 
-	while(not((UpDownRightLeft>30).any())):
+	while(not((UpDownRightLeft>15).any())):
 		ok, originalFrame = video.read()
 		txtScreen = "None"
 		if originalFrame is None:

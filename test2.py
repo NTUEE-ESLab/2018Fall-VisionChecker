@@ -28,10 +28,22 @@ window.geometry("%dx%d" % (window_w, window_h))
 canvas = tk.Canvas(window, width=window_w, height=window_h)
 canvas.grid(column=0, row=0)
 
-
 # label candidates
 pic = ["Up", "Down", "Right", "Left"]
 picpos = random.randint(0,3)
+
+# add lights
+r = 20
+x = int(window_w/2)
+y = r + 2
+up_light = canvas.create_oval(x-r, y-r, x+r, y+r, fill="")
+y = int(window_h*0.85)
+down_light = canvas.create_oval(x-r, y-r, x+r, y+r, fill="")
+x = int(window_w*0.15)
+y = int(window_h/2)
+left_light = canvas.create_oval(x-r, y-r, x+r, y+r, fill="")
+x = int(window_w*0.85)
+right_light = canvas.create_oval(x-r, y-r, x+r, y+r, fill="")
 
 # set the standard
 w = 40
@@ -43,20 +55,6 @@ reverse = False
 jump = 2
 correct = 0
 wrong = 0
-
-# add lights
-r = 20
-x = int(window_w/2)
-y = r + 2
-up_light = canvas.create_oval(x-r, y-r, x+r, y+r, outline="")
-y = int(window_h*0.85)
-down_light = canvas.create_oval(x-r, y-r, x+r, y+r, outline="")
-x = int(window_w*0.15)
-y = int(window_h/2)
-left_light = canvas.create_oval(x-r, y-r, x+r, y+r, outline="")
-x = int(window_w*0.85)
-right_light = canvas.create_oval(x-r, y-r, x+r, y+r, outline="")
-
 
 # function for changing candidate
 def change(dire):
@@ -139,20 +137,19 @@ def reset_light():
     canvas.itemconfig(right_light, fill="")
 
 
-# def output_result():
-#     global window
-#     for widget in window.winfo_children():
-#         widget.destroy()
-#     result_text = tk.Label(
-#         window, 
-#         text = "The result is "+str(level[pos]),
-#         font=("Arial", 50),
-#         width=20, height=7
-#         )
-#     result_text.pack()
-#     window.update_idletasks()
-#     print("The result is", level[pos])
 def output_result():
+    global window
+    for widget in window.winfo_children():
+        widget.destroy()
+    result_text = tk.Label(
+        window, 
+        text = "The result is "+str(level[pos]),
+        font=("Arial", 50),
+        width=20, height=7
+        )
+    result_text.pack()
+    window.update_idletasks()
+    print("The result is", level[pos])
 
 # load the pictures
 imUp = Image.open("image/Up_9x9.gif")
@@ -164,37 +161,14 @@ gifDown = ImageTk.PhotoImage(imDown.resize((int(w * ratio[pos]), int(h * ratio[p
 gifLeft = ImageTk.PhotoImage(imLeft.resize((int(w * ratio[pos]), int(h * ratio[pos])), Image.ANTIALIAS))
 gifRight = ImageTk.PhotoImage(imRight.resize((int(w * ratio[pos]), int(h * ratio[pos])), Image.ANTIALIAS))
 gifIm = [gifUp, gifDown, gifLeft, gifRight]
-welcome_png = Image.open("image/welcome1.png")
-imWelcome = ImageTk.PhotoImage(welcome_png.resize((int(window_w * 0.55), int(window_h * 0.25)), Image.ANTIALIAS))
+welcome_png = Image.open("image/welcome.png")
+imWelcome = ImageTk.PhotoImage(welcome_png)
 # scale_w = 2
 # scale_h = 2
 # gifUp = gifUp.subsample(scale_w, scale_h)
 # gifDown = gifDown.subsample(scale_w, scale_h)
 # gifLeft = gifLeft.subsample(scale_w, scale_h)
 # gifRight = gifRight.subsample(scale_w, scale_h)
-
-welcome = canvas.create_image(
-    int(window_w*0.5),
-    int(window_h*0.45),
-    anchor = tk.CENTER,
-    image=imWelcome
-)
-canvas.update()
-time.sleep(3)
-canvas.delete(welcome)
-canvas.update()
-time.sleep(0.5)
-
-start_sign = canvas.create_text(
-    int(window_w*0.5), 
-    int(window_h*0.45), 
-    anchor=tk.CENTER,
-    text="Press Enter to start",
-    font=("Arial 30 bold")
-)
-
-label = canvas.create_image(int(window_w/2), int(window_h*0.45), anchor=tk.CENTER, image="")
-canvas.update()
 
 def update_pic_size():
     # print("update!")
@@ -210,6 +184,7 @@ def update_pic_size():
 # label = tk.Label(window, image=gifIm[picpos])
 # label.image = gifIm[picpos]
 # label.grid(column=2, row=2, columnspan=3, rowspan=2, sticky="NEWS")
+label = canvas.create_image(int(window_w/2), int(window_h*0.45), anchor=tk.CENTER, image=gifIm[picpos])
 
 # add text labels
 picvar = tk.StringVar()
@@ -246,33 +221,12 @@ instruct = canvas.create_text(
 # buttonRight.grid(column=5, row=3)
 
 def start():
-    global canvas, start_sign
-
-    canvas.delete(start_sign)
-
-    canvas.itemconfig(up_light, outline="black")
-    canvas.itemconfig(down_light, outline="black")
-    canvas.itemconfig(left_light, outline="black")
-    canvas.itemconfig(right_light, outline="black")
-    canvas.itemconfig(label, image=gifIm[picpos])
-
-    canvas.update()
 
     res = True
     while(res):
         temp = timeToTest(video1)
         print("timeTotest is done, the direction is ",temp)
         res = change(temp)
-    
-    start_sign = canvas.create_text(
-        int(window_w*0.5), 
-        int(window_h*0.5), 
-        anchor=tk.CENTER,
-        text="Press Enter to start",
-        font=("Arial 30 bold")
-    )
-
-
 
 # bind the keyboard
 # window.bind("<Up>", lambda event: change(0))
