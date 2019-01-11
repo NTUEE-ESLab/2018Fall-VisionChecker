@@ -31,8 +31,8 @@ def timeToTest(camera, rawCapture):
 	#ok, firstFrame = video.read()
 	h, w, ch = firstFrame.shape
 	firstFramePosition = [h//2,w//2]
-	sideHeight = 20
-	sideWidth = 20
+	sideHeight = 25
+	sideWidth = 25
 	num_hands_detect = 1;
 	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
 	rawCapture.truncate(0)
