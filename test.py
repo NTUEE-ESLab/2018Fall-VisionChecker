@@ -5,7 +5,11 @@ import random
 import time
 from accuracy_estimate import timeToTest
 import cv2
-import threading
+# import threading
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 video1 = cv2.VideoCapture(0)
 # build the window
@@ -263,7 +267,7 @@ instruct = canvas.create_text(
 # buttonRight = ttk.Button(window, text="Right", command=lambda:change(3))
 # buttonRight.grid(column=5, row=3)
 
-def start():
+def start(ch):
     global canvas, start_sign
 
     canvas.delete(start_sign)
@@ -297,8 +301,8 @@ def start():
 # window.bind("<Down>", lambda event: change(1))
 # window.bind("<Left>", lambda event: change(2))
 # window.bind("<Right>", lambda event: change(3))
-window.bind("<Return>", lambda event: start())
-
+window.bind("<Return>", lambda event: start(0))
+GPIO.add_event_detect(18, GPIO.FALLING, callback=start, bouncetime=500)
 
 window.mainloop()
 
