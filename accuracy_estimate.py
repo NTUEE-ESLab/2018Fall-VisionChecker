@@ -12,6 +12,8 @@ detection_graph, sess = detector_utils.load_inference_graph()
 print("Camera Init Start")
 #video = cv2.VideoCapture(0)
 camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
 rawCapture = PiRGBArray(camera)
 #camera.capture(rawCapture, format="bgr")
 #image = rawCapture.array
