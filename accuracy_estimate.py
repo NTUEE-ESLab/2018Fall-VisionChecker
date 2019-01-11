@@ -20,6 +20,9 @@ print("Camera Init Finish")
 
 
 def timeToTest(camera, rawCapture):
+	print("Start rawCapture.truncate")
+	rawCapture.truncate(0)
+	print("Finish rawCapture.truncate")
 	print("Start In time Totest")
 	camera.capture(rawCapture, format="bgr")
 	firstFrame = rawCapture.array
