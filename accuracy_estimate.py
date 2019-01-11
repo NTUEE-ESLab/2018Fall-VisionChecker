@@ -2,17 +2,13 @@ import cv2
 import numpy as np
 from utils import detector_utils as detector_utils
 from time import sleep
-<<<<<<< HEAD
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-=======
 import os
->>>>>>> 8ea5866cc743c7a46ac89d9939317777445a8f67
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
 detection_graph, sess = detector_utils.load_inference_graph()
 
-<<<<<<< HEAD
 #video = cv2.VideoCapture(0)
 camera = PiCamera()
 rawCapture = PiRGBArray(camera)
@@ -30,15 +26,6 @@ def timeToTest(camera, rawCapture):
 	firstFramePosition = [h//2,w//2]
 	sideHeight = 200
 	sideWidth = 200
-=======
-# video = cv2.VideoCapture(0)
-
-
-def timeToTest(video):
-	firstFramePosition = [0,0]
-	sideHeight = 0
-	sideWidth = 0
->>>>>>> 8ea5866cc743c7a46ac89d9939317777445a8f67
 	num_hands_detect = 1;
 	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
     
@@ -65,15 +52,10 @@ def timeToTest(video):
 	#tracker = cv2.TrackerTLD_create()
 	#ok = tracker.init(firstFrame, bbox)
 
-<<<<<<< HEAD
 	while(not((UpDownRightLeft>20).any())):
 		#ok, originalFrame = video.read()
 		originalFrame = firstFrame
 		cv2.circle(originalFrame,(firstFramePosition[1],firstFramePosition[0]), 20, (255,0,255), -1)
-=======
-	while(not((UpDownRightLeft>15).any())):
-		ok, originalFrame = video.read()
->>>>>>> 8ea5866cc743c7a46ac89d9939317777445a8f67
 		txtScreen = "None"
 		if originalFrame is None:
 			break;
@@ -112,13 +94,10 @@ def timeToTest(video):
 	direction = np.argmax(UpDownRightLeft)
 	return direction
 
-<<<<<<< HEAD
 ans = timeToTest(video)
-#print(ans)
-=======
+print(ans)
 # ans = timeToTest()
 # print(ans)
->>>>>>> 8ea5866cc743c7a46ac89d9939317777445a8f67
 #print(time.time())
 #time.sleep(3)
 #print(time.time())
