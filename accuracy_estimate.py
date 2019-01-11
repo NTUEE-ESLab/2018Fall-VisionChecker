@@ -9,16 +9,18 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 detection_graph, sess = detector_utils.load_inference_graph()
 
+print("Camera Init Start")
 #video = cv2.VideoCapture(0)
 camera = PiCamera()
 rawCapture = PiRGBArray(camera)
 #camera.capture(rawCapture, format="bgr")
 #image = rawCapture.array
-
+print("Camera Init Finish")
 
 
 
 def timeToTest(camera, rawCapture):
+	print("Start In time Totest")
 	camera.capture(rawCapture, format="bgr")
 	firstFrame = rawCapture.array
 	#ok, firstFrame = video.read()
@@ -28,6 +30,8 @@ def timeToTest(camera, rawCapture):
 	sideWidth = 200
 	num_hands_detect = 1;
 	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
+	rawCapture.truncate(0)
+	print("First frame Finsih")
     
 	
 
@@ -51,9 +55,10 @@ def timeToTest(camera, rawCapture):
 	#bbox = (firstFramePosition[1], firstFramePosition[0], sideWidth, sideHeight)
 	#tracker = cv2.TrackerTLD_create()
 	#ok = tracker.init(firstFrame, bbox)
-
+	print("GO Inside While loop")
 	while(not((UpDownRightLeft>20).any())):
 		#ok, originalFrame = video.read()
+		camera.capture(rawCapture, format="bgr")
 		originalFrame = firstFrame
 		cv2.circle(originalFrame,(firstFramePosition[1],firstFramePosition[0]), 20, (255,0,255), -1)
 		txtScreen = "None"
@@ -62,9 +67,11 @@ def timeToTest(camera, rawCapture):
 		originalFrame = (np.fliplr(originalFrame)).copy()
 		#cv2.rectangle(originalFrame, (firstFramePosition[1], firstFramePosition[0]), (firstFramePosition[1]+sideWidth,firstFramePosition[0]+sideHeight), (0, 0, 255), 2)
 		originalFrame = cv2.cvtColor(originalFrame, cv2.COLOR_BGR2RGB)
+		print("Using Deep Learning")
 		boxes, scores = detector_utils.detect_objects(originalFrame, detection_graph, sess)
 		currentFramePosition, currentHeight, currentWidth = detector_utils.draw_box_on_image(num_hands_detect, 0.2, scores, boxes, w, h, originalFrame)		
-		
+		print("Finish Deep")
+		print("Classify Stary")
 		if(currentHeight==0 or currentHeight==0):
 			txtScreen = "Not Found Hand"
 		elif firstFramePosition[0]-currentFramePosition[0]>sideHeight//2:
@@ -86,17 +93,17 @@ def timeToTest(camera, rawCapture):
 		cv2.imshow("Security Feed", originalFrame)
 		key = cv2.waitKey(1) & 0xFF
 		sleep(0.05)
-                #rawCapture.truncate(0)
 		#print(UpDownRightLeft)
 		#print(np.where( UpDownRightLeft > 30 ))
 
 	#video.release()
 	#cv2.destroyAllWindows()
 	direction = np.argmax(UpDownRightLeft)
+	print("Finish Function")
 	return direction
 
-# ans = timeToTest(camera, rawCapture)
-# print(ans)
+ans = timeToTest(camera, rawCapture)
+print(ans)
 # ans = timeToTest()
 # print(ans)
 #print(time.time())

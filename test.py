@@ -294,6 +294,7 @@ def start(ch):
         time.sleep(2)
         print("timeTotest is done, the direction is ",temp)
         res = change(temp)
+        print(GPIO.input)
         if GPIO.input(18)== False:
             break
         
