@@ -23,11 +23,11 @@ print("Camera Init Finish")
 
 def timeToTest(camera, rawCapture):
 	print("Start rawCapture.truncate")
-	rawCapture.truncate(0)
 	print("Finish rawCapture.truncate")
 	print("Start In time Totest")
 	camera.capture(rawCapture, format="bgr")
 	firstFrame = rawCapture.array
+	rawCapture.truncate(0)
 	#ok, firstFrame = video.read()
 	h, w, ch = firstFrame.shape
 	firstFramePosition = [h//2,w//2]
@@ -63,8 +63,7 @@ def timeToTest(camera, rawCapture):
 	print("GO Inside While loop")
 	while(not((UpDownRightLeft>20).any())):
 		#ok, originalFrame = video.read()
-		camera.capture(rawCapture, format="bgr")
-		originalFrame = firstFrame
+		originalFrame = rawCapture.array
 		cv2.circle(originalFrame,(firstFramePosition[1],firstFramePosition[0]), 20, (255,0,255), -1)
 		txtScreen = "None"
 		if originalFrame is None:
@@ -97,6 +96,7 @@ def timeToTest(camera, rawCapture):
 		cv2.putText(originalFrame, txtScreen, (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
 		cv2.imshow("Security Feed", originalFrame)
 		key = cv2.waitKey(1) & 0xFF
+		rawCapture.truncate(0)
 		sleep(0.05)
 
 		#print(UpDownRightLeft)
