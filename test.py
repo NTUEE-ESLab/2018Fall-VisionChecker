@@ -102,7 +102,7 @@ def change(dire):
             
     # window.update_idletasks()   # update the warning text
     # time.sleep(2)               # hold for two seconds
-    time.sleep(1)               # hold for one seconds
+    time.sleep(1.5)               # hold for one seconds
     # result.config(text="")
     canvas.itemconfig(result, text="")
     reset_light()
@@ -210,10 +210,12 @@ result = canvas.create_text(
 # buttonRight.grid(column=5, row=3)
 
 def start():
-    while(True):
+    result = True
+    while(result):
         temp = timeToTest(video1)
         print("timeTotest is done, the direction is ",temp)
-        change(temp)
+        result = change(temp)
+
 
 # bind the keyboard
 # window.bind("<Up>", lambda event: change(0))
