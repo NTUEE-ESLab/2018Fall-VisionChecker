@@ -3,7 +3,7 @@ import tkinter.ttk as ttk
 from PIL import Image, ImageTk
 import random
 import time
-from accuracy_estimate import timeToTest
+# from accuracy_estimate import timeToTest
 # from picamera.array import PiRGBArray
 # from picamera import PiCamera
 import cv2
@@ -141,7 +141,7 @@ def reset_light():
 
 
 def clear_canvas():
-    global canvas
+    global canvas, wrong, correct, pos
     canvas.itemconfig(label, image="")
     canvas.itemconfig(up_light, fill="", outline="")
     canvas.itemconfig(down_light, fill="", outline="")
@@ -149,6 +149,10 @@ def clear_canvas():
     canvas.itemconfig(right_light, fill="", outline="")
     canvas.itemconfig(result, text="")
     canvas.itemconfig(instruct, text="")
+
+    wrong = 0
+    correct = 0
+    pos = 0
 
 # def output_result():
 #     global window
@@ -294,8 +298,9 @@ def start(ch):
         time.sleep(2)
         print("timeTotest is done, the direction is ",temp)
         res = change(temp)
-        print(GPIO.input)
+        print(GPIO.input(18))
         if GPIO.input(18)== False:
+            clear_canvas()
             break
         
     
