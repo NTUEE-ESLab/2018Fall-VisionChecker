@@ -9,6 +9,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 detection_graph, sess = detector_utils.load_inference_graph()
 
+'''
 print("Camera Init Start")
 #video = cv2.VideoCapture(0)
 camera = PiCamera()
@@ -18,8 +19,7 @@ rawCapture = PiRGBArray(camera)
 #camera.capture(rawCapture, format="bgr")
 #image = rawCapture.array
 print("Camera Init Finish")
-
-
+'''
 
 def timeToTest(camera, rawCapture):
 	print("Start rawCapture.truncate")
@@ -31,8 +31,8 @@ def timeToTest(camera, rawCapture):
 	#ok, firstFrame = video.read()
 	h, w, ch = firstFrame.shape
 	firstFramePosition = [h//2,w//2]
-	sideHeight = 200
-	sideWidth = 200
+	sideHeight = 20
+        sideWidth = 20
 	num_hands_detect = 1;
 	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
 	rawCapture.truncate(0)
@@ -108,8 +108,8 @@ def timeToTest(camera, rawCapture):
 	print("Finish Function")
 	return direction
 
-ans = timeToTest(camera, rawCapture)
-print(ans)
+# ans = timeToTest(camera, rawCapture)
+# print(ans)
 # ans = timeToTest()
 # print(ans)
 #print(time.time())
