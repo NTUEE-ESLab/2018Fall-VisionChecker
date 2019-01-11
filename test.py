@@ -4,14 +4,21 @@ from PIL import Image, ImageTk
 import random
 import time
 from accuracy_estimate import timeToTest
+# from picamera.array import PiRGBArray
+# from picamera import PiCamera
 import cv2
-# import threading
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-video1 = cv2.VideoCapture(0)
+# video1 = cv2.VideoCapture(0)
+# camera = PiCamera()
+# rawCapture = PiRGBArray(camera)
+# detection_graph, sess = detector_utils.load_inference_graph()
+
+# camera = PiCamera()
+
 # build the window
 window = tk.Tk()
 window.title("Vision Checker")
@@ -228,7 +235,7 @@ def update_pic_size():
     gifIm = [gifUp, gifDown, gifLeft, gifRight]
 
 
-# add the picture
+# add the picture 
 # label = tk.Label(window, image=gifIm[picpos])
 # label.image = gifIm[picpos]
 # label.grid(column=2, row=2, columnspan=3, rowspan=2, sticky="NEWS")
@@ -282,9 +289,14 @@ def start(ch):
 
     res = True
     while(res):
-        temp = timeToTest(video1)
+        # temp = timeToTest(camera, rawCapture)
+        temp = random.randint(0,3)
+        time.sleep(2)
         print("timeTotest is done, the direction is ",temp)
         res = change(temp)
+        if GPIO.input(18)== False:
+            break
+        
     
     start_sign = canvas.create_text(
         int(window_w*0.5), 
@@ -305,5 +317,5 @@ GPIO.add_event_detect(18, GPIO.FALLING, callback=start, bouncetime=500)
 
 window.mainloop()
 
-video1.release()
+# video1.release()
 cv2.destroyAllWindows()

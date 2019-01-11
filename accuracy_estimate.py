@@ -86,16 +86,17 @@ def timeToTest(camera, rawCapture):
 		cv2.imshow("Security Feed", originalFrame)
 		key = cv2.waitKey(1) & 0xFF
 		sleep(0.05)
+                #rawCapture.truncate(0)
 		#print(UpDownRightLeft)
 		#print(np.where( UpDownRightLeft > 30 ))
-	
+
 	#video.release()
 	#cv2.destroyAllWindows()
 	direction = np.argmax(UpDownRightLeft)
 	return direction
 
-ans = timeToTest(video)
-print(ans)
+# ans = timeToTest(camera, rawCapture)
+# print(ans)
 # ans = timeToTest()
 # print(ans)
 #print(time.time())
