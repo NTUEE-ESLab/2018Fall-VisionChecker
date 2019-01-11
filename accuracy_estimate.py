@@ -63,6 +63,7 @@ def timeToTest(camera, rawCapture):
 	print("GO Inside While loop")
 	while(not((UpDownRightLeft>20).any())):
 		#ok, originalFrame = video.read()
+		camera.capture(rawCapture, format="bgr")
 		originalFrame = rawCapture.array
 		cv2.circle(originalFrame,(firstFramePosition[1],firstFramePosition[0]), 20, (255,0,255), -1)
 		txtScreen = "None"
