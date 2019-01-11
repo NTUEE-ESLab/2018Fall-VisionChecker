@@ -77,7 +77,7 @@ def change(dire):
         canvas.itemconfig(result, text="Wrong!", fill="red")
         wrong += 1
     change_light(dire)
-    canvas.itemconfig(instruct, text="hand back to the middle")
+    # canvas.itemconfig(instruct, text="hand back to the middle")
 
     canvas.update()
     # print("warning and light loaded.")
@@ -109,7 +109,7 @@ def change(dire):
     time.sleep(1.5)               # hold for one seconds
     # result.config(text="")
     canvas.itemconfig(result, text="")
-    canvas.itemconfig(instruct, text="")
+    # canvas.itemconfig(instruct, text="")
     reset_light()
     if output:
         output_result()
