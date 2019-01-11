@@ -295,7 +295,6 @@ def start(ch):
     )
 
 
-
 # bind the keyboard
 # window.bind("<Up>", lambda event: change(0))
 # window.bind("<Down>", lambda event: change(1))
