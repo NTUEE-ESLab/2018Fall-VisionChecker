@@ -3,27 +3,35 @@ import numpy as np
 from utils import detector_utils as detector_utils
 import os
 from time import sleep
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
 detection_graph, sess = detector_utils.load_inference_graph()
 
 #video = cv2.VideoCapture(0)
+camera = PiCamera()
+rawCapture = PiRGBArray(camera)
+#camera.capture(rawCapture, format="bgr")
+#image = rawCapture.array
 
 
 
 
-
-
-
-def timeToTest(video):
-	firstFramePosition = [0,0]
-	sideHeight = 0
-	sideWidth = 0
+def timeToTest(camera, rawCapture):
+	camera.capture(rawCapture, format="bgr")
+	firstFrame = rawCapture.array
+	#ok, firstFrame = video.read()
+	h, w, ch = firstFrame.shape
+	firstFramePosition = [h//2,w//2]
+	sideHeight = 200
+	sideWidth = 200
 	num_hands_detect = 1;
 	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
+    
+	
 
-
-
+	'''
 	while(True):
 		ok, firstFrame = video.read()
 		if not ok:
@@ -38,18 +46,21 @@ def timeToTest(video):
 			print("Error: Not Found Hand")
 		else:
 			break
+	'''
 
 	#bbox = (firstFramePosition[1], firstFramePosition[0], sideWidth, sideHeight)
 	#tracker = cv2.TrackerTLD_create()
 	#ok = tracker.init(firstFrame, bbox)
 
-	while(not((UpDownRightLeft>30).any())):
-		ok, originalFrame = video.read()
+	while(not((UpDownRightLeft>20).any())):
+		#ok, originalFrame = video.read()
+		originalFrame = firstFrame
+		cv2.circle(originalFrame,(firstFramePosition[1],firstFramePosition[0]), 20, (255,0,255), -1)
 		txtScreen = "None"
 		if originalFrame is None:
 			break;
 		originalFrame = (np.fliplr(originalFrame)).copy()
-		cv2.rectangle(originalFrame, (firstFramePosition[1], firstFramePosition[0]), (firstFramePosition[1]+sideWidth,firstFramePosition[0]+sideHeight), (0, 0, 255), 2)
+		#cv2.rectangle(originalFrame, (firstFramePosition[1], firstFramePosition[0]), (firstFramePosition[1]+sideWidth,firstFramePosition[0]+sideHeight), (0, 0, 255), 2)
 		originalFrame = cv2.cvtColor(originalFrame, cv2.COLOR_BGR2RGB)
 		boxes, scores = detector_utils.detect_objects(originalFrame, detection_graph, sess)
 		currentFramePosition, currentHeight, currentWidth = detector_utils.draw_box_on_image(num_hands_detect, 0.2, scores, boxes, w, h, originalFrame)		
@@ -83,7 +94,7 @@ def timeToTest(video):
 	direction = np.argmax(UpDownRightLeft)
 	return direction
 
-#ans = timeToTest()
+ans = timeToTest(video)
 #print(ans)
 #print(time.time())
 #time.sleep(3)
