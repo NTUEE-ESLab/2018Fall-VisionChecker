@@ -69,7 +69,7 @@ def timeToTest(video):
 		cv2.putText(originalFrame, txtScreen, (80, 80), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), 1, cv2.LINE_AA)
 		cv2.imshow("Security Feed", originalFrame)
 		key = cv2.waitKey(1) & 0xFF
-		sleep(0.1)
+		sleep(0.05)
 		#print(UpDownRightLeft)
 		#print(np.where( UpDownRightLeft > 30 ))
 	

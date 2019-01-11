@@ -14,16 +14,6 @@ window.title("Vision Checker")
 window_w = window.winfo_screenwidth()
 window_h = window.winfo_screenheight()
 window.geometry("%dx%d" % (window_w, window_h))
-# window.rowconfigure(1, weight=1)
-# window.rowconfigure(2, weight=1)
-# window.rowconfigure(3, weight=1)
-# window.rowconfigure(4, weight=1)
-# window.rowconfigure(5, weight=1)
-# window.columnconfigure(1, weight=1)
-# window.columnconfigure(2, weight=1)
-# window.columnconfigure(3, weight=1)
-# window.columnconfigure(4, weight=1)
-# window.columnconfigure(5, weight=1)
 
 canvas = tk.Canvas(window, width=window_w, height=window_h)
 canvas.grid(column=0, row=0)
@@ -139,6 +129,16 @@ def reset_light():
     canvas.itemconfig(right_light, fill="")
 
 
+def clear_canvas():
+    global canvas
+    canvas.itemconfig(label, image="")
+    canvas.itemconfig(up_light, fill="", outline="")
+    canvas.itemconfig(down_light, fill="", outline="")
+    canvas.itemconfig(left_light, fill="", outline="")
+    canvas.itemconfig(right_light, fill="", outline="")
+    canvas.itemconfig(result, text="")
+    canvas.itemconfig(instruct, text="")
+
 # def output_result():
 #     global window
 #     for widget in window.winfo_children():
@@ -153,6 +153,24 @@ def reset_light():
 #     window.update_idletasks()
 #     print("The result is", level[pos])
 def output_result():
+    global canvas, wrong, correct
+    clear_canvas()
+
+    wrong = 0
+    correct = 0
+
+    result_text = canvas.create_text(
+        int(window_w*0.5), 
+        int(window_h*0.45), 
+        anchor=tk.CENTER,
+        text="The result is " + str(level[pos]),
+        font=("Arial 50 bold")
+    )
+    canvas.update()
+    time.sleep(5)
+    canvas.delete(result_text)
+    canvas.update()
+
 
 # load the pictures
 imUp = Image.open("image/Up_9x9.gif")
@@ -266,7 +284,7 @@ def start():
     
     start_sign = canvas.create_text(
         int(window_w*0.5), 
-        int(window_h*0.5), 
+        int(window_h*0.45), 
         anchor=tk.CENTER,
         text="Press Enter to start",
         font=("Arial 30 bold")
