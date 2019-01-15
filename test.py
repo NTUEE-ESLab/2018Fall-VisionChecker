@@ -37,8 +37,8 @@ pic = ["Up", "Down", "Right", "Left"]
 picpos = random.randint(0,3)
 
 # set the standard
-w = 40
-h = 40
+w = 20
+h = 20
 ratio = [9.0, 4.5, 3.0, 2.25, 1.8, 1.5, 1.29, 1.11, 1.0, 0.9, 0.75, 0.6, 0.45]
 level = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 2.0]
 pos = 0
@@ -171,7 +171,7 @@ def output_result():
         int(window_h*0.45), 
         anchor=tk.CENTER,
         text="The result is " + str(level[pos]),
-        font=("Arial 50 bold")
+        font=("Arial 80 bold")
     )
     canvas.update()
     time.sleep(5)
@@ -221,7 +221,7 @@ start_sign = canvas.create_text(
     int(window_h*0.45), 
     anchor=tk.CENTER,
     text="Press Enter to start",
-    font=("Arial 30 bold")
+    font=("Arial 60 bold")
 )
 
 label = canvas.create_image(int(window_w/2), int(window_h*0.45), anchor=tk.CENTER, image="")
@@ -249,7 +249,7 @@ result = canvas.create_text(
     int(window_w*0.85), 
     int(window_h*0.78), 
     text="",
-    font=("Arial 25 bold")
+    font=("Arial 50 bold")
     )
 instruct = canvas.create_text(
     int(window_w*0.15), 
@@ -305,7 +305,7 @@ def start(ch):
         int(window_h*0.45), 
         anchor=tk.CENTER,
         text="Press Enter to start",
-        font=("Arial 30 bold")
+        font=("Arial 60 bold")
     )
 
 
