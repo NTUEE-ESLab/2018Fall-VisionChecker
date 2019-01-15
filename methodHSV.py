@@ -167,7 +167,7 @@ def soEasyTest(camera, rawCapture):
 		else:
 			UpDownRightLeft[4] +=1
 		print(UpDownRightLeft)
-		sleep(0.5)
+		sleep(0.05)
 	print("I finish it !")
 	direction = np.argmax(UpDownRightLeft)
 	return direction
