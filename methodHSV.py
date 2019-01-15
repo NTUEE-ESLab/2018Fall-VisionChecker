@@ -173,9 +173,9 @@ def soEasyTest(camera, rawCapture):
 
 #ans = timeToTest(video)
 #ans = soEasyTest(video)
-L,H,W = FindHandPosition(video)
-print(L)
-print(H,W)
+#L,H,W = FindHandPosition(video)
+#print(L)
+#print(H,W)
 #print(ans)
 	
 
