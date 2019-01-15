@@ -7,12 +7,13 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
-camera = PiCamera()
-camera.resolution = (640,480)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera)
+# camera = PiCamera()
+# camera.resolution = (640,480)
+# camera.framerate = 32
+# rawCapture = PiRGBArray(camera)
 
-#detection_graph, sess = detector_utils.load_inference_graph()
+
+# detection_graph, sess = detector_utils.load_inference_graph()
 #video = cv2.VideoCapture(0)
 
 def FindHandPosition(camera, rawCapture):
@@ -144,7 +145,7 @@ def soEasyTest(camera, rawCapture):
 	firstFrame = frame.copy()
 	firstFrameGray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
 
-	while(not((UpDownRightLeft>20).any())):
+	while(not((UpDownRightLeft>10).any())):
 		camera.capture(rawCapture, format="bgr")
 		frame = rawCapture.array
 		rawCapture.truncate(0)
@@ -156,18 +157,18 @@ def soEasyTest(camera, rawCapture):
 		valueArray = np.array([0,0,0,0])
 		valueArray[0] = np.mean(thresh[:sideH,:])
 		valueArray[1] = np.mean(thresh[sideH:,:])
-		valueArray[2] = np.mean(thresh[:,sideW:])
-		valueArray[3] = np.mean(thresh[:,:sideW])
+		valueArray[3] = np.mean(thresh[:,sideW:])
+		valueArray[2] = np.mean(thresh[:,:sideW])
 		dirTemp = np.argmax(valueArray)
 		firstFrameGray = frameGray
-		cv2.imshow('frameDelta',thresh)
-		k = cv2.waitKey(5) & 0xFF
+		# cv2.imshow('frameDelta',thresh)
+		# k = cv2.waitKey(5) & 0xFF
 		if valueArray[dirTemp] > threshold:
 			UpDownRightLeft[dirTemp] +=1
 		else:
 			UpDownRightLeft[4] +=1
 		print(UpDownRightLeft)
-		sleep(0.05)
+		sleep(0.02)
 	print("I finish it !")
 	direction = np.argmax(UpDownRightLeft)
 	return direction
@@ -179,11 +180,11 @@ def soEasyTest(camera, rawCapture):
 
 
 #ans = timeToTest(video)
-ans = soEasyTest(camera,rawCapture)
+# ans = soEasyTest(camera,rawCapture)
 #L,H,W = FindHandPosition(video)
 #print(L)
 #print(H,W)
-print(ans)
+# print(ans)
 	
 
 

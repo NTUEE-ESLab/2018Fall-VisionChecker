@@ -3,10 +3,11 @@ import tkinter.ttk as ttk
 from PIL import Image, ImageTk
 import random
 import time
-from accuracy_estimate import timeToTest
-from utils import detector_utils as detector_utils
+# from accuracy_estimate import timeToTest
+# from utils import detector_utils as detector_utils
 from picamera.array import PiRGBArray
 from picamera import PiCamera
+from methodHSV import soEasyTest
 import cv2
 import RPi.GPIO as GPIO
 
@@ -18,7 +19,7 @@ camera = PiCamera()
 camera.resolution = (320, 240)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera)
-detection_graph, sess = detector_utils.load_inference_graph()
+# detection_graph, sess = detector_utils.load_inference_graph()
 
 # build the window
 window = tk.Tk()
@@ -294,9 +295,7 @@ def start(ch):
 
     res = True
     while(res):
-        temp = timeToTest(camera, rawCapture)
-        # temp = random.randint(0,3)
-        # time.sleep(2)
+        temp = soEasyTest(camera, rawCapture)
         print("timeTotest is done, the direction is ",temp)
         res = change(temp)
         print(GPIO.input(18))
