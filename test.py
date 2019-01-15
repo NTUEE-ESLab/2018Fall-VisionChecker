@@ -282,22 +282,23 @@ def start(ch):
     canvas.itemconfig(start_sign, text="Place the red dot right on your chest")
 
     count = 0
-    inter = 0.05
+    inter = 0.1
 
     while count < 5:
         camera.capture(rawCapture, format="bgr")
-        firstframe = rawCapture.array
+        frame = rawCapture.array
         rawCapture.truncate(0)
-        h, w, ch = firstframe.shape
+        frame = (np.fliplr(frame)).copy()
+        h, w, ch = frame.shape
         cv2.circle(
-            firstframe, 
+            frame, 
             (w//2, h//2), 
             10,
             (0, 0, 255),
             -1
         )
-        cv2.imshow("good", firstframe)
-        k = cv2.waitKey(5)
+        cv2.imshow("good", frame)
+        k = cv2.waitKey(2)
         count += inter
 
     cv2.destroyAllWindows()
