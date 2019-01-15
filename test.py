@@ -3,7 +3,8 @@ import tkinter.ttk as ttk
 from PIL import Image, ImageTk
 import random
 import time
-from accuracy_estimate import timeToTest
+# from accuracy_estimate import timeToTest
+from methodHSV import soEasyTest
 import cv2
 import threading
 
@@ -278,7 +279,7 @@ def start():
 
     res = True
     while(res):
-        temp = timeToTest(video1)
+        temp = soEasyTest(camera, rawCapture)
         print("timeTotest is done, the direction is ",temp)
         res = change(temp)
     

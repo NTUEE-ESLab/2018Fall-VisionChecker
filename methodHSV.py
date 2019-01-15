@@ -10,7 +10,7 @@ from picamera import PiCamera
 camera = PiCamera()
 rawCapture = PiRGBArray(camera)
 
-detection_graph, sess = detector_utils.load_inference_graph()
+# detection_graph, sess = detector_utils.load_inference_graph()
 #video = cv2.VideoCapture(0)
 
 def FindHandPosition(camera, rawCapture):
@@ -177,11 +177,11 @@ def soEasyTest(camera, rawCapture):
 
 
 #ans = timeToTest(video)
-ans = soEasyTest(camera,rawCapture)
+# ans = soEasyTest(camera,rawCapture)
 #L,H,W = FindHandPosition(video)
 #print(L)
 #print(H,W)
-print(ans)
+# print(ans)
 	
 
 
