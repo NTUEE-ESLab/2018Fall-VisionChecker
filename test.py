@@ -279,6 +279,28 @@ instruct = canvas.create_text(
 def start(ch):
     global canvas, start_sign
 
+    canvas.itemconfig(start_sign, text="Place the red dot right on your chest")
+
+    count = 0
+    inter = 0.05
+
+    while count < 5:
+        camera.capture(rawCapture, format="bgr")
+        firstframe = rawCapture.array
+        rawCapture.truncate(0)
+        h, w, ch = firstframe.shape
+        cv2.circle(
+            firstframe, 
+            (w//2, h//2), 
+            10,
+            (0, 0, 255),
+            -1
+        )
+        cv2.imshow("good", firstframe)
+        k = cv2.waitKey(5)
+        count += inter
+
+    cv2.destroyAllWindows()
     canvas.delete(start_sign)
 
     canvas.itemconfig(up_light, outline="black")
@@ -319,5 +341,4 @@ GPIO.add_event_detect(18, GPIO.FALLING, callback=start, bouncetime=500)
 
 window.mainloop()
 
-# video1.release()
 cv2.destroyAllWindows()
