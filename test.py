@@ -3,11 +3,24 @@ import tkinter.ttk as ttk
 from PIL import Image, ImageTk
 import random
 import time
-from accuracy_estimate import timeToTest
+# from accuracy_estimate import timeToTest
+# from utils import detector_utils as detector_utils
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+from methodHSV import soEasyTest
 import cv2
-import threading
+import RPi.GPIO as GPIO
 
-video1 = cv2.VideoCapture(0)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+# video1 = cv2.VideoCapture(0)
+camera = PiCamera()
+camera.resolution = (320, 240)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera)
+# detection_graph, sess = detector_utils.load_inference_graph()
+
 # build the window
 window = tk.Tk()
 window.title("Vision Checker")
@@ -66,7 +79,7 @@ def change(dire):
         canvas.itemconfig(result, text="Wrong!", fill="red")
         wrong += 1
     change_light(dire)
-    canvas.itemconfig(instruct, text="hand back to the middle")
+    # canvas.itemconfig(instruct, text="hand back to the middle")
 
     canvas.update()
     # print("warning and light loaded.")
@@ -98,7 +111,7 @@ def change(dire):
     time.sleep(1.5)               # hold for one seconds
     # result.config(text="")
     canvas.itemconfig(result, text="")
-    canvas.itemconfig(instruct, text="")
+    # canvas.itemconfig(instruct, text="")
     reset_light()
     if output:
         output_result()
@@ -130,7 +143,7 @@ def reset_light():
 
 
 def clear_canvas():
-    global canvas
+    global canvas, wrong, correct, pos
     canvas.itemconfig(label, image="")
     canvas.itemconfig(up_light, fill="", outline="")
     canvas.itemconfig(down_light, fill="", outline="")
@@ -138,6 +151,10 @@ def clear_canvas():
     canvas.itemconfig(right_light, fill="", outline="")
     canvas.itemconfig(result, text="")
     canvas.itemconfig(instruct, text="")
+
+    wrong = 0
+    correct = 0
+    pos = 0
 
 # def output_result():
 #     global window
@@ -224,7 +241,7 @@ def update_pic_size():
     gifIm = [gifUp, gifDown, gifLeft, gifRight]
 
 
-# add the picture
+# add the picture 
 # label = tk.Label(window, image=gifIm[picpos])
 # label.image = gifIm[picpos]
 # label.grid(column=2, row=2, columnspan=3, rowspan=2, sticky="NEWS")
@@ -263,7 +280,7 @@ instruct = canvas.create_text(
 # buttonRight = ttk.Button(window, text="Right", command=lambda:change(3))
 # buttonRight.grid(column=5, row=3)
 
-def start():
+def start(ch):
     global canvas, start_sign
 
     canvas.delete(start_sign)
@@ -278,9 +295,14 @@ def start():
 
     res = True
     while(res):
-        temp = timeToTest(video1)
+        temp = soEasyTest(camera, rawCapture)
         print("timeTotest is done, the direction is ",temp)
         res = change(temp)
+        print(GPIO.input(18))
+        if GPIO.input(18)== False:
+            clear_canvas()
+            break
+        
     
     start_sign = canvas.create_text(
         int(window_w*0.5), 
@@ -296,10 +318,10 @@ def start():
 # window.bind("<Down>", lambda event: change(1))
 # window.bind("<Left>", lambda event: change(2))
 # window.bind("<Right>", lambda event: change(3))
-window.bind("<Return>", lambda event: start())
-
+window.bind("<Return>", lambda event: start(0))
+GPIO.add_event_detect(18, GPIO.FALLING, callback=start, bouncetime=500)
 
 window.mainloop()
 
-video1.release()
+# video1.release()
 cv2.destroyAllWindows()

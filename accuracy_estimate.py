@@ -9,6 +9,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 detection_graph, sess = detector_utils.load_inference_graph()
 
+'''
 print("Camera Init Start")
 #video = cv2.VideoCapture(0)
 camera = PiCamera()
@@ -18,8 +19,7 @@ rawCapture = PiRGBArray(camera)
 #camera.capture(rawCapture, format="bgr")
 #image = rawCapture.array
 print("Camera Init Finish")
-
-
+'''
 
 def timeToTest(camera, rawCapture):
 	print("Start rawCapture.truncate")
@@ -99,18 +99,17 @@ def timeToTest(camera, rawCapture):
 		key = cv2.waitKey(1) & 0xFF
 		rawCapture.truncate(0)
 		sleep(0.05)
-
 		#print(UpDownRightLeft)
 		#print(np.where( UpDownRightLeft > 30 ))
-	
+
 	#video.release()
 	#cv2.destroyAllWindows()
 	direction = np.argmax(UpDownRightLeft)
 	print("Finish Function")
 	return direction
 
-ans = timeToTest(video)
-print(ans)
+# ans = timeToTest(camera, rawCapture)
+# print(ans)
 # ans = timeToTest()
 # print(ans)
 #print(time.time())
