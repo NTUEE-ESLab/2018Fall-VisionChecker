@@ -3,24 +3,6 @@ import tkinter.ttk as ttk
 from PIL import Image, ImageTk
 import random
 import time
-# from accuracy_estimate import timeToTest
-# from utils import detector_utils as detector_utils
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-from methodHSV import soEasyTest
-import cv2
-import RPi.GPIO as GPIO
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-# video1 = cv2.VideoCapture(0)
-camera = PiCamera()
-camera.resolution = (320, 240)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera)
-# detection_graph, sess = detector_utils.load_inference_graph()
-
 # build the window
 window = tk.Tk()
 window.title("Vision Checker")
@@ -149,19 +131,6 @@ def clear_canvas():
     canvas.itemconfig(result, text="")
     canvas.itemconfig(instruct, text="")
 
-# def output_result():
-#     global window
-#     for widget in window.winfo_children():
-#         widget.destroy()
-#     result_text = tk.Label(
-#         window, 
-#         text = "The result is "+str(level[pos]),
-#         font=("Arial", 50),
-#         width=20, height=7
-#         )
-#     result_text.pack()
-#     window.update_idletasks()
-#     print("The result is", level[pos])
 def output_result():
     global canvas, wrong, correct, pos
     clear_canvas()
@@ -266,15 +235,6 @@ instruct = canvas.create_text(
 #         )
 # result.grid(column=3, row=4)
 
-# add buttons
-# buttonUp = ttk.Button(window, text="Up", command=lambda:change(0))
-# buttonUp.grid(column=3, row=1)
-# buttonDown = ttk.Button(window, text="Down", command=lambda:change(1))
-# buttonDown.grid(column=3, row=5)
-# buttonLeft = ttk.Button(window, text="Left", command=lambda:change(2))
-# buttonLeft.grid(column=1, row=3)
-# buttonRight = ttk.Button(window, text="Right", command=lambda:change(3))
-# buttonRight.grid(column=5, row=3)
 
 def start(ch):
     global canvas, start_sign
@@ -289,35 +249,31 @@ def start(ch):
 
     canvas.update()
 
-    res = True
-    while(res):
-        temp = soEasyTest(camera, rawCapture)
-        print("timeTotest is done, the direction is ",temp)
-        res = change(temp)
-        print(GPIO.input(18))
-        if GPIO.input(18)== False:
-            clear_canvas()
-            break
+    # res = True
+    # while(res):
+    #     temp = soEasyTest(camera, rawCapture)
+    #     print("timeTotest is done, the direction is ",temp)
+    #     res = change(temp)
+    #     print(GPIO.input(18))
+    #     if GPIO.input(18)== False:
+    #         clear_canvas()
+    #         break
         
     
-    start_sign = canvas.create_text(
-        int(window_w*0.5), 
-        int(window_h*0.45), 
-        anchor=tk.CENTER,
-        text="Press Enter to start",
-        font=("Arial 30 bold")
-    )
+    # start_sign = canvas.create_text(
+    #     int(window_w*0.5), 
+    #     int(window_h*0.45), 
+    #     anchor=tk.CENTER,
+    #     text="Press Enter to start",
+    #     font=("Arial 30 bold")
+    # )
 
 
 # bind the keyboard
-# window.bind("<Up>", lambda event: change(0))
-# window.bind("<Down>", lambda event: change(1))
-# window.bind("<Left>", lambda event: change(2))
-# window.bind("<Right>", lambda event: change(3))
+window.bind("<Up>", lambda event: change(0))
+window.bind("<Down>", lambda event: change(1))
+window.bind("<Left>", lambda event: change(2))
+window.bind("<Right>", lambda event: change(3))
 window.bind("<Return>", lambda event: start(0))
-GPIO.add_event_detect(18, GPIO.FALLING, callback=start, bouncetime=500)
 
 window.mainloop()
-
-# video1.release()
-cv2.destroyAllWindows()
