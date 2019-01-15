@@ -145,7 +145,7 @@ def soEasyTest(camera, rawCapture):
 	firstFrame = frame.copy()
 	firstFrameGray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
 
-	while(not((UpDownRightLeft>10).any())):
+	while(UpDownRightLeft.sum()<20):
 		camera.capture(rawCapture, format="bgr")
 		frame = rawCapture.array
 		rawCapture.truncate(0)

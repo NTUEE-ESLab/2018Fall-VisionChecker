@@ -163,7 +163,7 @@ def clear_canvas():
 #     window.update_idletasks()
 #     print("The result is", level[pos])
 def output_result():
-    global canvas, wrong, correct
+    global canvas, wrong, correct, pos
     clear_canvas()
 
     result_text = canvas.create_text(
