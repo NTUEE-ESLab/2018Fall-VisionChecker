@@ -118,11 +118,8 @@ def change(dire):
         return False
     # pick a new picture
     picpos = random.randint(0,3)
-    # label.config(image=gifIm[picpos])
-    # label.image = gifIm[picpos]
     canvas.itemconfig(label, image=gifIm[picpos])
     canvas.update()
-    # print("picture changed.")
     return True
 
 def change_light(dire):
@@ -152,10 +149,6 @@ def clear_canvas():
     canvas.itemconfig(result, text="")
     canvas.itemconfig(instruct, text="")
 
-    wrong = 0
-    correct = 0
-    pos = 0
-
 # def output_result():
 #     global window
 #     for widget in window.winfo_children():
@@ -173,9 +166,6 @@ def output_result():
     global canvas, wrong, correct
     clear_canvas()
 
-    wrong = 0
-    correct = 0
-
     result_text = canvas.create_text(
         int(window_w*0.5), 
         int(window_h*0.45), 
@@ -186,6 +176,12 @@ def output_result():
     canvas.update()
     time.sleep(5)
     canvas.delete(result_text)
+    
+    wrong = 0
+    correct = 0
+    pos = 0
+    update_pic_size()
+
     canvas.update()
 
 
