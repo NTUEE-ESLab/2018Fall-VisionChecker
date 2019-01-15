@@ -25,6 +25,7 @@ def FindHandPosition(camera, rawCapture):
 		#ok, firstFrame = video.read()
 		camera.capture(rawCapture, format="bgr")
 		firstFrame = rawCapture.array
+		rawCapture.truncate(0)
 		if not ok:
 			print("Did'nt Open Camera!")
 			break
@@ -52,6 +53,7 @@ def FindHandPosition(camera, rawCapture):
 def timeToTest(camera, rawCapture):
 	camera.capture(rawCapture, format="bgr")
 	frame = rawCapture.array
+	rawCapture.truncate(0)
 	#_,frame = video.read()
 	frame = (np.fliplr(frame)).copy()
 	h, w, ch = frame.shape
@@ -74,6 +76,7 @@ def timeToTest(camera, rawCapture):
 	while(not((UpDownRightLeft>20).any())):
 		camera.capture(rawCapture, format="bgr")
 		frame = rawCapture.array
+		rawCapture.truncate(0)
 		#_,frame = video.read()
 		frame = (np.fliplr(frame)).copy()
 
@@ -131,6 +134,7 @@ def soEasyTest(camera, rawCapture):
 	#_,frame = video.read()
 	camera.capture(rawCapture, format="bgr")
 	frame = rawCapture.array
+	rawCapture.truncate(0)
 	frame = (np.fliplr(frame)).copy()
 	h, w, ch = frame.shape
 	sideH = h//2
@@ -143,6 +147,7 @@ def soEasyTest(camera, rawCapture):
 	while(not((UpDownRightLeft>20).any())):
 		camera.capture(rawCapture, format="bgr")
 		frame = rawCapture.array
+		rawCapture.truncate(0)
 		#_,frame = video.read()
 		frame = (np.fliplr(frame)).copy()
 		frameGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
