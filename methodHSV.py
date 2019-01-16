@@ -131,7 +131,7 @@ def timeToTest(video):
 
 def soEasyTest(video):
 	#print("Start soEasytest : ",time.time())
-	sleep(0.5)
+	#sleep(0.5)
 	_,frame = video.read()
 	#camera.capture(rawCapture, format="bgr")
 	#frame = rawCapture.array
@@ -170,13 +170,13 @@ def soEasyTest(video):
 		# print("Finish 4 np.mean : ",time.time())
 		dirTemp = np.argmax(valueArray)
 		firstFrameGray = frameGray
-		cv2.imshow('frameDelta',thresh)
-		k = cv2.waitKey(1) & 0xFF
+		#cv2.imshow('frameDelta',thresh)
+		#k = cv2.waitKey(1) & 0xFF
 		if valueArray[dirTemp] > threshold:
 			UpDownRightLeft[dirTemp] +=1
 		else:
 			UpDownRightLeft[4] +=1
-		print(UpDownRightLeft)
+		#print(UpDownRightLeft)
 		sleep(0.1)
 	print("I finish it !")
 	direction = np.argmax(UpDownRightLeft)
