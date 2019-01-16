@@ -2,32 +2,25 @@ import cv2
 import numpy as np
 from time import sleep
 import os
-#from utils import detector_utils as detector_utils
-#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
+from utils import detector_utils as detector_utils
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 #from picamera.array import PiRGBArray
 #from picamera import PiCamera
 import time
 
-# camera = PiCamera()
-# camera.resolution = (640,480)
-# camera.framerate = 32
-# rawCapture = PiRGBArray(camera)
+video = cv2.VideoCapture(0)
+
+detection_graph, sess = detector_utils.load_inference_graph()
 
 
-# detection_graph, sess = detector_utils.load_inference_graph()
-
-
-def FindHandPosition(camera, rawCapture):
+def FindHandPosition(video):
 
 	firstFramePosition = [0,0]
 	sideHeight = 0
 	sideWidth = 0
 	num_hands_detect = 1
 	while(True):
-		#ok, firstFrame = video.read()
-		camera.capture(rawCapture, format="bgr")
-		firstFrame = rawCapture.array
-		rawCapture.truncate(0)
+		ok, firstFrame = video.read()
 		if not ok:
 			print("Did'nt Open Camera!")
 			break
@@ -40,36 +33,29 @@ def FindHandPosition(camera, rawCapture):
 			print("Error: Not Found Hand")
 		else:
 			break
-	'''
-	while True:
-		ok, frame = video.read()
-		frame = (np.fliplr(frame)).copy()
-		cv2.rectangle(frame, (firstFramePosition[1], firstFramePosition[0]), (firstFramePosition[1]+sideWidth, firstFramePosition[0]+sideHeight), (255,0,255), 2)
-		cv2.imshow('mask',frame)
-		k = cv2.waitKey(5) & 0xFF
-	'''
 	return firstFramePosition, sideHeight, sideWidth 
 
 
-'''
-def timeToTest(camera, rawCapture):
+
+def timeToTest(video):
 	print("Start timeTotest : ",time.time())
-	camera.capture(rawCapture, format="bgr")
-	frame = rawCapture.array
-	rawCapture.truncate(0)
-	#_,frame = video.read()
+	L,H,W = FindHandPosition(video)
+	print("Finish finfing hand : ", time.time())
+	print(L)
+	_,frame = video.read()
 	frame = (np.fliplr(frame)).copy()
 	h, w, ch = frame.shape
-	sideH = h//10
-	sideW = h//10
+	sideH = H
+	sideW = W
 	threshold = 40
 	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
 	print(frame.shape)
-	handLocation = np.array([frame.shape[0]//4, frame.shape[1]*3//4]).astype(int)
+	handLocation = np.array([L[0], L[1]]).astype(int)
 	handLocationUp = np.array([handLocation[0]-sideH, handLocation[1] ]).astype(int)
 	handLocationDown = np.array([handLocation[0]+sideH, handLocation[1] ]).astype(int)
 	handLocationRight = np.array([handLocation[0], handLocation[1]+sideW ]).astype(int)
 	handLocationLeft = np.array([handLocation[0], handLocation[1]-sideW ]).astype(int)
+	print("Finish initialize the location : ", time.time())
 
 	firstFrame = frame.copy()
 	firstFrameGray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
@@ -78,13 +64,14 @@ def timeToTest(camera, rawCapture):
 
 
 	while(not((UpDownRightLeft>20).any())):
-		camera.capture(rawCapture, format="bgr")
-		frame = rawCapture.array
-		rawCapture.truncate(0)
-		#_,frame = video.read()
+		print(" ")
+		print("Start While loop : ", time.time())
+		_,frame = video.read()
 		frame = (np.fliplr(frame)).copy()
 
 		hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+		print("Finish convert to HSV : ", time.time())
+
 
 		lower_blue = np.array([0,40,80])
 		upper_blue = np.array([20,255,255])
@@ -95,6 +82,8 @@ def timeToTest(camera, rawCapture):
 		mask = cv2.erode(mask, kernel, iterations = 2)
 		mask = cv2.dilate(mask, kernel, iterations = 2)
 		mask = cv2.GaussianBlur(mask,(3,3),0)
+		print("Finish preprocessing : ", time.time())
+
 
 		valueUp = np.mean(mask[handLocationUp[0]:handLocationUp[0]+sideH, handLocationUp[1]:handLocationUp[1]+sideW])
 		valueDown = np.mean(mask[handLocationDown[0]:handLocationDown[0]+sideH, handLocationDown[1]:handLocationDown[1]+sideW])
@@ -104,12 +93,14 @@ def timeToTest(camera, rawCapture):
 		cv2.rectangle(mask, (handLocation[1], handLocation[0]), 
 									(handLocation[1] + sideW , 
 									handLocation[0] + sideH), (255, 255, 255), 2)
-		mask = mask[:frame.shape[0]//2, frame.shape[1]//2:w]
+		#mask = mask[:frame.shape[0]//2, frame.shape[1]//2:w]
 		cv2.imshow('mask',mask)
-		k = cv2.waitKey(5) & 0xFF
+		k = cv2.waitKey(1) & 0xFF
 		
 		valueArray = np.array([valueUp, valueDown, valueRight, valueLeft])
 		dirTemp = np.argmax(valueArray)
+		print(valueArray)
+		print("Finish determine the direction : ", time.time())
 		if valueArray[dirTemp] > threshold:
 			UpDownRightLeft[dirTemp] +=1
 		else:
@@ -128,12 +119,13 @@ def timeToTest(camera, rawCapture):
 				UpDownRightLeft[dirTemp] +=1
 			else:
 				UpDownRightLeft[4] +=1
+				print("Finish second chance : ", time.time())
 		sleep(0.5)
 		print(UpDownRightLeft)
 	print("I finish it !")
 	direction = np.argmax(UpDownRightLeft)
 	return direction
-'''
+
 
 def soEasyTest(video):
 	print("Start soEasytest : ",time.time())
@@ -193,7 +185,7 @@ def soEasyTest(video):
 
 
 
-#ans = timeToTest(video)
+ans = timeToTest(video)
 # ans = soEasyTest(camera,rawCapture)
 #L,H,W = FindHandPosition(video)
 #print(L)
