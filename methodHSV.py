@@ -163,10 +163,10 @@ def soEasyTest(video):
 		thresh = cv2.threshold(frameDelta, 50, 255, cv2.THRESH_BINARY)[1]
 		# print("Finish cv2.threshold : ",time.time())
 		valueArray = np.array([0,0,0,0])
-		valueArray[0] = np.mean(thresh[:sideH,:])
-		valueArray[1] = np.mean(thresh[sideH:,:])
-		valueArray[3] = np.mean(thresh[:,sideW:])
-		valueArray[2] = np.mean(thresh[:,:sideW])
+		valueArray[0] = np.mean(thresh[:sideH,w//4:w*3//4])
+		valueArray[1] = np.mean(thresh[sideH:,w//4:w*3//4])
+		valueArray[3] = np.mean(thresh[h//4:h*3//4,sideW:])
+		valueArray[2] = np.mean(thresh[h//4:h*3//4,:sideW])
 		# print("Finish 4 np.mean : ",time.time())
 		dirTemp = np.argmax(valueArray)
 		firstFrameGray = frameGray
