@@ -18,7 +18,9 @@ As technology grows speedily, people start giving more and more tasks to machine
 6. Press button to restart for the next user.
 
 ## Demo
+![welcome](image/welcome.jpg)
 <img src=image/welcome.jpg alt="welcome" data-rotate=270>
+![start](image/start.jpg)
 <img src=image/start.jpg alt="start" data-rotate=270>
 
 ## Dependency
