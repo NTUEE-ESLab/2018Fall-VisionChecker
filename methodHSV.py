@@ -6,6 +6,7 @@ from utils import detector_utils as detector_utils
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 from picamera.array import PiRGBArray
 from picamera import PiCamera
+import time
 
 # camera = PiCamera()
 # camera.resolution = (640,480)
@@ -52,6 +53,7 @@ def FindHandPosition(camera, rawCapture):
 
 
 def timeToTest(camera, rawCapture):
+	print("Start timeTotest : ",time.time())
 	camera.capture(rawCapture, format="bgr")
 	frame = rawCapture.array
 	rawCapture.truncate(0)
@@ -71,6 +73,7 @@ def timeToTest(camera, rawCapture):
 
 	firstFrame = frame.copy()
 	firstFrameGray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
+	print("Finish initialize firstFrame : ",time.time())
 
 
 
