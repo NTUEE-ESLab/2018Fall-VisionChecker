@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import matplotlib
-matplotlib.use("Agg")
+# import matplotlib
+# matplotlib.use("Agg")
 import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -28,6 +28,7 @@ video1 = cv2.VideoCapture(0)
 # build the window
 window = tk.Tk()
 window.title("Vision Checker")
+window.attributes("-fullscreen", True)
 window_w = window.winfo_screenwidth()
 window_h = window.winfo_screenheight()
 window.geometry("%dx%d" % (window_w, window_h))
@@ -98,7 +99,7 @@ def change(dire):
             pos += jump
             update_pic_size()
             correct = 0
-    elif wrong >= 2:
+    elif wrong >= 3:
         if pos == 1 or pos == 0:
             pos = 0
             output = True
