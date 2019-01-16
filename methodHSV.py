@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 from time import sleep
 import os
-from utils import detector_utils as detector_utils
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
+#from utils import detector_utils as detector_utils
+#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
@@ -152,6 +152,8 @@ def soEasyTest(camera, rawCapture):
 
 
 	while(UpDownRightLeft.sum()<7):
+		print("  ")
+		print("Start the while loop : ",time.time())
 		camera.capture(rawCapture, format="bgr")
 		frame = rawCapture.array
 		print("Finish get frame : ",time.time())
@@ -178,7 +180,7 @@ def soEasyTest(camera, rawCapture):
 			UpDownRightLeft[dirTemp] +=1
 		else:
 			UpDownRightLeft[4] +=1
-		print(UpDownRightLeft)
+		#print(UpDownRightLeft)
 		# sleep(0.005)
 	print("I finish it !")
 	direction = np.argmax(UpDownRightLeft)
