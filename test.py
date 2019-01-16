@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# import matplotlib
+# matplotlib.use("Agg")
 import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
