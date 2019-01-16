@@ -58,7 +58,7 @@ def FindHandPosition(camera, rawCapture):
 	return firstFramePosition, sideHeight, sideWidth 
 
 
-
+'''
 def timeToTest(camera, rawCapture):
 	print("Start timeTotest : ",time.time())
 	camera.capture(rawCapture, format="bgr")
@@ -140,6 +140,7 @@ def timeToTest(camera, rawCapture):
 	print("I finish it !")
 	direction = np.argmax(UpDownRightLeft)
 	return direction
+'''
 
 def soEasyTest(camera, rawCapture):
 	print("Start soEasytest : ",time.time())
