@@ -145,7 +145,7 @@ def soEasyTest(camera, rawCapture):
 	firstFrame = frame.copy()
 	firstFrameGray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
 
-	while(UpDownRightLeft.sum()<10):
+	while(UpDownRightLeft.sum()<7):
 		camera.capture(rawCapture, format="bgr")
 		frame = rawCapture.array
 		rawCapture.truncate(0)
@@ -161,14 +161,14 @@ def soEasyTest(camera, rawCapture):
 		valueArray[2] = np.mean(thresh[:,:sideW])
 		dirTemp = np.argmax(valueArray)
 		firstFrameGray = frameGray
-		cv2.imshow('frameDelta',thresh)
-		k = cv2.waitKey(5) & 0xFF
+		# cv2.imshow('frameDelta',thresh)
+		# k = cv2.waitKey(1) & 0xFF
 		if valueArray[dirTemp] > threshold:
 			UpDownRightLeft[dirTemp] +=1
 		else:
 			UpDownRightLeft[4] +=1
 		print(UpDownRightLeft)
-		sleep(0.01)
+		# sleep(0.005)
 	print("I finish it !")
 	direction = np.argmax(UpDownRightLeft)
 	return direction

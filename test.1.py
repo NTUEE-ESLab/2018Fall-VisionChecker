@@ -19,8 +19,8 @@ pic = ["Up", "Down", "Right", "Left"]
 picpos = random.randint(0,3)
 
 # set the standard
-w = 40
-h = 40
+w = 20
+h = 20
 ratio = [9.0, 4.5, 3.0, 2.25, 1.8, 1.5, 1.29, 1.11, 1.0, 0.9, 0.75, 0.6, 0.45]
 level = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 2.0]
 pos = 0
@@ -90,7 +90,7 @@ def change(dire):
             
     # window.update_idletasks()   # update the warning text
     # time.sleep(2)               # hold for two seconds
-    time.sleep(1.5)               # hold for one seconds
+    time.sleep(1)               # hold for one seconds
     # result.config(text="")
     canvas.itemconfig(result, text="")
     # canvas.itemconfig(instruct, text="")
