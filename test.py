@@ -18,11 +18,11 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-# video1 = cv2.VideoCapture(0)
-camera = PiCamera()
-camera.resolution = (320, 240)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera)
+video1 = cv2.VideoCapture(0)
+#camera = PiCamera()
+#camera.resolution = (320, 240)
+#camera.framerate = 32
+#rawCapture = PiRGBArray(camera)
 # detection_graph, sess = detector_utils.load_inference_graph()
 
 # build the window
@@ -311,7 +311,7 @@ def start(ch):
 
     res = True
     while(res):
-        temp = soEasyTest(camera, rawCapture)
+        temp = soEasyTest(video1)
         print("timeTotest is done, the direction is ",temp)
         res = change(temp)
         print(GPIO.input(18))
