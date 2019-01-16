@@ -229,7 +229,7 @@ start_sign = canvas.create_text(
     int(window_w*0.5), 
     int(window_h*0.45), 
     anchor=tk.CENTER,
-    text="Press Enter to start",
+    text="Press button to start",
     font=("Arial 60 bold")
 )
 
@@ -327,7 +327,7 @@ def start(ch):
         int(window_w*0.5), 
         int(window_h*0.45), 
         anchor=tk.CENTER,
-        text="Press Enter to start",
+        text="Press button to start",
         font=("Arial 60 bold")
     )
 
