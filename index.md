@@ -18,8 +18,8 @@ As technology grows speedily, people start giving more and more tasks to machine
 6. Press button to restart for the next user.
 
 ## Demo
-<img src=image/welcome.jpg alt="welcome">
-<img src=image/start.jpg alt="start>
+<img src=image/welcome.jpg alt="welcome" data-rotate=270>
+<img src=image/start.jpg alt="start" data-rotate=270>
 
 ## Dependency
 * Rpi 3
