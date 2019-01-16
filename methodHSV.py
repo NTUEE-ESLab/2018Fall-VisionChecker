@@ -15,7 +15,14 @@ import time
 
 
 # detection_graph, sess = detector_utils.load_inference_graph()
-#video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(0)
+while True:
+	print("Start : ", time.time())
+	_,frame = video.read()
+	print("Finish Get frame : ", time.time())
+	cv2.imshow('frameDelta',frame)
+	k = cv2.waitKey(1) & 0xFF
+
 
 def FindHandPosition(camera, rawCapture):
 
@@ -192,12 +199,12 @@ def soEasyTest(camera, rawCapture):
 
 
 
-ans = timeToTest(video)
+#ans = timeToTest(video)
 # ans = soEasyTest(camera,rawCapture)
 #L,H,W = FindHandPosition(video)
 #print(L)
 #print(H,W)
-print(ans)
+#print(ans)
 	
 
 
