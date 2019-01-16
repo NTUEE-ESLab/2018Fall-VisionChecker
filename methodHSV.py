@@ -178,7 +178,7 @@ def soEasyTest(camera, rawCapture):
 			UpDownRightLeft[dirTemp] +=1
 		else:
 			UpDownRightLeft[4] +=1
-		print(UpDownRightLeft)
+		# print(UpDownRightLeft)
 		# sleep(0.005)
 	print("I finish it !")
 	direction = np.argmax(UpDownRightLeft)
@@ -190,12 +190,12 @@ def soEasyTest(camera, rawCapture):
 
 
 
-ans = timeToTest(video)
+# ans = timeToTest(video)
 # ans = soEasyTest(camera,rawCapture)
 #L,H,W = FindHandPosition(video)
 #print(L)
 #print(H,W)
-print(ans)
+# print(ans)
 	
 
 
