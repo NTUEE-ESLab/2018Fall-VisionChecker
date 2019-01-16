@@ -131,7 +131,7 @@ def timeToTest(video):
 
 def soEasyTest(video):
 	#print("Start soEasytest : ",time.time())
-	sleep(0.5)
+	#sleep(0.5)
 	_,frame = video.read()
 	#camera.capture(rawCapture, format="bgr")
 	#frame = rawCapture.array
