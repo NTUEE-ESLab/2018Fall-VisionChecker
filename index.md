@@ -35,13 +35,8 @@ As technology grows speedily, people start giving more and more tasks to machine
 * Collect the images and resize them according to the standard of Snellen Chart. 
 * GPIO for connecting the start button.
 * Recompile opencv-python to optimize performance on RPi.
-* HSV format for detecting human skin color. Area substraction for motion detection.
+* Area substraction for motion detection.
 * Every time a new test image shows up, there will be a short delay that allows user to look and think. This delay grows as the image size becomes smaller and smaller.
-
-
-
-
-
 
 ## Develop Process 
 
@@ -63,7 +58,7 @@ We propose a very simple solution that just calculate the abs difference between
 ### Problem Faced
 #### Neural Netowrk
 
-This method is extremely slow which may delay for almost 5~10 sec on Rpi , and that means it is incapable for real-time usage.
+This method is extremely **slow** which may delay for almost 5~10 sec on Rpi , and that means it is incapable for real-time usage.
 
 #### HSV
 
