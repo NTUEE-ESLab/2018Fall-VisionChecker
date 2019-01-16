@@ -29,8 +29,14 @@ As technology grows speedily, people start giving more and more tasks to machine
 * tkinter
 * RPi.GPIO
 * picamera
-## Implementation
 
+## Implementation
+* Tkinter for building the user interface.
+* Collect the images and resize them according to the standard of Snellen Chart. 
+* GPIO for connecting the start button.
+* Recompile opencv-python to optimize performance on RPi.
+* HSV format for detecting human skin color. Area substraction for motion detection.
+* Every time a new test image shows up, there will be a short delay that allows user to look and think. This delay grows as the image size becomes smaller and smaller.
 
 
 ## Develop Process 
@@ -50,7 +56,7 @@ You can refer to this [website](https://www.pyimagesearch.com/2014/08/18/skin-de
 
 We propose a very simple solution that just calculate the abs difference between two frame, and apply some filter to blur and threshold to let our frame more clean.
 
-### Problem
+### Problem Faced
 #### Neural Netowrk
 
 This method is extremely slow which may delay for almost 5~10 sec on Rpi , and that means it is incapable for real-time usage.
