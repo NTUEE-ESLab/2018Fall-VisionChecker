@@ -23,7 +23,10 @@ As technology grows speedily, people start giving more and more tasks to machine
 5. After the test is finished, your result will be shown on the screen.
 6. Press button to restart for the next user.
 
-## Fearures
+## Features
+1. Light-weighted. Easy to setup and doesn't require special equipments.
+2. Can be operated by the tester himself. Doesn't require one more operator.
+3. The application loops itself and doesn't require setup time when switching users.
 
 ### Demo
 
