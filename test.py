@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import matplotlib
-matplotlib.use("Agg")
+# import matplotlib
+# matplotlib.use("Agg")
 import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -28,6 +28,7 @@ video1 = cv2.VideoCapture(0)
 # build the window
 window = tk.Tk()
 window.title("Vision Checker")
+window.attributes("-fullscreen", True)
 window_w = window.winfo_screenwidth()
 window_h = window.winfo_screenheight()
 window.geometry("%dx%d" % (window_w, window_h))
@@ -45,6 +46,7 @@ w = 20
 h = 20
 ratio = [9.0, 4.5, 3.0, 2.25, 1.8, 1.5, 1.29, 1.11, 1.0, 0.9, 0.75, 0.6, 0.45]
 level = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 2.0]
+delay = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.7, 0.9, 1.1, 1.1, 1.1]
 pos = 0
 reverse = False
 jump = 2
@@ -98,7 +100,7 @@ def change(dire):
             pos += jump
             update_pic_size()
             correct = 0
-    elif wrong >= 2:
+    elif wrong >= 3:
         if pos == 1 or pos == 0:
             pos = 0
             output = True
@@ -120,10 +122,12 @@ def change(dire):
     if output:
         output_result()
         return False
+
     # pick a new picture
     picpos = random.randint(0,3)
     canvas.itemconfig(label, image=gifIm[picpos])
     canvas.update()
+    time.sleep(delay[pos])
     return True
 
 def change_light(dire):
