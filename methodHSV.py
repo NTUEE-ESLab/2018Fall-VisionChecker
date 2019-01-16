@@ -4,8 +4,8 @@ from time import sleep
 import os
 #from utils import detector_utils as detector_utils
 #os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+#from picamera.array import PiRGBArray
+#from picamera import PiCamera
 import time
 
 # camera = PiCamera()
