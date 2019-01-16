@@ -46,6 +46,7 @@ w = 20
 h = 20
 ratio = [9.0, 4.5, 3.0, 2.25, 1.8, 1.5, 1.29, 1.11, 1.0, 0.9, 0.75, 0.6, 0.45]
 level = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 2.0]
+delay = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.7, 0.9, 1.1, 1.1, 1.1]
 pos = 0
 reverse = False
 jump = 2
@@ -121,10 +122,12 @@ def change(dire):
     if output:
         output_result()
         return False
+
     # pick a new picture
     picpos = random.randint(0,3)
     canvas.itemconfig(label, image=gifIm[picpos])
     canvas.update()
+    time.sleep(delay[pos])
     return True
 
 def change_light(dire):
