@@ -37,9 +37,8 @@ As technology grows speedily, people start giving more and more tasks to machine
 * Collect the images and resize them according to the standard of Snellen Chart. 
 * GPIO for connecting the start button.
 * Recompile opencv-python to optimize performance on RPi.
-* HSV format for detecting human skin color. Area substraction for motion detection.
+* Area substraction for motion detection.
 * Every time a new test image shows up, there will be a short delay that allows user to look and think. This delay grows as the image size becomes smaller and smaller.
-
 
 ## Develop Process 
 
@@ -61,12 +60,15 @@ We propose a very simple solution that just calculate the abs difference between
 ### Problem Faced
 #### Neural Netowrk
 
-This method is extremely slow which may delay for almost 5~10 sec on Rpi , and that means it is incapable for real-time usage.
+This method is extremely **slow** which may delay for almost 5~10 sec on Rpi , and that means it is incapable for real-time usage.
 
 #### HSV
 
 This method need to know how far is the distance from the user to screen and where is the hand position at initial frame, or it can use the above neural network to find the hand position. It seems fine to use the neral network for only first frame. Nevertheless, eventually the result isn't accurate enough for testing which may delay for 2 sec.
 
-##### Simple abs for two frame
+#### Aera selection in our method
 
-This method is the most easy and accurate solution; however, the motion that users need to do is a bit unnatural. 
+At first, we split the frame into **Up Area** and **Down Area** with the horizontal line, and **Left Area** and **Right Area** with  vertical line in the middle point. However, it is inaccurate when testing motion toward left and right. 
+
+As a result, for **Up Area** and **Down Area**, we additionaly split two more vertical line in one quarter line and third quarter place.  for **Left Area** and **Right Area**, we additionaly split two more horizontal line in one quarter line and third quarter place.  
+
