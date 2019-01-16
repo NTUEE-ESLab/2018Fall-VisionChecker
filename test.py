@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# import matplotlib
-# matplotlib.use("Agg")
+import matplotlib
+matplotlib.use("Agg")
 import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -167,7 +167,7 @@ def clear_canvas():
 #     window.update_idletasks()
 #     print("The result is", level[pos])
 def output_result():
-    global canvas, wrong, correct, pos
+    global canvas, wrong, correct, pos, reverse
     clear_canvas()
 
     result_text = canvas.create_text(
@@ -279,12 +279,12 @@ def start(ch):
     canvas.itemconfig(start_sign, text="Place the red dot right on your chest")
 
     count = 0
-    inter = 0.1
+    inter = 0.05
 
-    while count < 2:
-        camera.capture(rawCapture, format="bgr")
-        frame = rawCapture.array
-        rawCapture.truncate(0)
+    while count < 5:
+        # camera.capture(rawCapture, format="bgr")
+        _, frame = video1.read()
+        # rawCapture.truncate(0)
         frame = (np.fliplr(frame)).copy()
         h, w, ch = frame.shape
         cv2.circle(
@@ -294,8 +294,8 @@ def start(ch):
             (0, 0, 255),
             -1
         )
-        cv2.imshow("good", frame)
-        k = cv2.waitKey(1)
+        cv2.imshow("camera", frame)
+        k = cv2.waitKey(5)
         count += inter
 
     cv2.destroyAllWindows()
