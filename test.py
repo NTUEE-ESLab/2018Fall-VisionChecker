@@ -1,3 +1,4 @@
+import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
 from PIL import Image, ImageTk
@@ -88,9 +89,9 @@ def change(dire):
         if reverse or pos == 12:
             output = True
         else:
-            if wrong > 0 or pos == 11:
+            if pos >= 8:
                 jump = 1
-                wrong = 0
+            wrong = 0
             pos += jump
             update_pic_size()
             correct = 0
@@ -108,7 +109,7 @@ def change(dire):
             
     # window.update_idletasks()   # update the warning text
     # time.sleep(2)               # hold for two seconds
-    time.sleep(1.5)               # hold for one seconds
+    time.sleep(1)               # hold for one seconds
     # result.config(text="")
     canvas.itemconfig(result, text="")
     # canvas.itemconfig(instruct, text="")
@@ -180,6 +181,7 @@ def output_result():
     wrong = 0
     correct = 0
     pos = 0
+    reverse = False
     update_pic_size()
 
     canvas.update()
@@ -266,15 +268,7 @@ instruct = canvas.create_text(
 #         )
 # result.grid(column=3, row=4)
 
-# add buttons
-# buttonUp = ttk.Button(window, text="Up", command=lambda:change(0))
-# buttonUp.grid(column=3, row=1)
-# buttonDown = ttk.Button(window, text="Down", command=lambda:change(1))
-# buttonDown.grid(column=3, row=5)
-# buttonLeft = ttk.Button(window, text="Left", command=lambda:change(2))
-# buttonLeft.grid(column=1, row=3)
-# buttonRight = ttk.Button(window, text="Right", command=lambda:change(3))
-# buttonRight.grid(column=5, row=3)
+
 
 def start(ch):
     global canvas, start_sign
@@ -284,7 +278,7 @@ def start(ch):
     count = 0
     inter = 0.1
 
-    while count < 5:
+    while count < 2:
         camera.capture(rawCapture, format="bgr")
         frame = rawCapture.array
         rawCapture.truncate(0)
@@ -298,7 +292,7 @@ def start(ch):
             -1
         )
         cv2.imshow("good", frame)
-        k = cv2.waitKey(2)
+        k = cv2.waitKey(1)
         count += inter
 
     cv2.destroyAllWindows()
@@ -321,7 +315,6 @@ def start(ch):
         if GPIO.input(18)== False:
             clear_canvas()
             break
-        
     
     start_sign = canvas.create_text(
         int(window_w*0.5), 
