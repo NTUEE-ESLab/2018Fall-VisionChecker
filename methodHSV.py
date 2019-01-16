@@ -15,7 +15,14 @@ import time
 
 
 # detection_graph, sess = detector_utils.load_inference_graph()
-#video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(0)
+while True:
+	print("Start : ", time.time())
+	_,frame = video.read()
+	print("Finish Get frame : ", time.time())
+	cv2.imshow('frameDelta',frame)
+	k = cv2.waitKey(1) & 0xFF
+
 
 def FindHandPosition(camera, rawCapture):
 
@@ -112,92 +119,90 @@ def timeToTest(camera, rawCapture):
 		dirTemp = np.argmax(valueArray)
 		if valueArray[dirTemp] > threshold:
 			UpDownRightLeft[dirTemp] +=1
-		else:
-			frameGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-			frameDelta = cv2.absdiff(firstFrameGray, frameGray)
-			thresh = cv2.threshold(frameDelta, 50, 255, cv2.THRESH_BINARY)[1]
-			valueArray[0] = np.mean(thresh[handLocationUp[0]:handLocationUp[0]+sideH, handLocationUp[1]:handLocationUp[1]+sideW])
-			valueArray[1] = np.mean(frameDelta[handLocationDown[0]:handLocationDown[0]+sideH, handLocationDown[1]:handLocationDown[1]+sideW])
-			valueArray[2] = np.mean(thresh[handLocationRight[0]:handLocationRight[0]+sideH, handLocationRight[1]:handLocationRight[1]+sideW])
-			valueArray[3] = np.mean(thresh[handLocationLeft[0]:handLocationLeft[0]+sideH, handLocationLeft[1]:handLocationLeft[1]+sideW])
-			dirTemp = np.argmax(valueArray)
-			firstFrameGray = frameGray
-			#cv2.imshow('frameDelta',thresh)
-			#k = cv2.waitKey(5) & 0xFF
-			if valueArray[dirTemp] > threshold:
-				UpDownRightLeft[dirTemp] +=1
-			else:
-				UpDownRightLeft[4] +=1
-		sleep(0.5)
-		print(UpDownRightLeft)
-	print("I finish it !")
-	direction = np.argmax(UpDownRightLeft)
-	return direction
+                else:
+                    frameGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    frameDelta = cv2.absdiff(firstFrameGray, frameGray)
+                    thresh = cv2.threshold(frameDelta, 50, 255, cv2.THRESH_BINARY)[1]
+                    valueArray[0] = np.mean(thresh[handLocationUp[0]:handLocationUp[0]+sideH, handLocationUp[1]:handLocationUp[1]+sideW])
+                    valueArray[1] = np.mean(frameDelta[handLocationDown[0]:handLocationDown[0]+sideH, handLocationDown[1]:handLocationDown[1]+sideW])
+                    valueArray[2] = np.mean(thresh[handLocationRight[0]:handLocationRight[0]+sideH, handLocationRight[1]:handLocationRight[1]+sideW])
+                    valueArray[3] = np.mean(thresh[handLocationLeft[0]:handLocationLeft[0]+sideH, handLocationLeft[1]:handLocationLeft[1]+sideW])
+                    dirTemp = np.argmax(valueArray)
+                    firstFrameGray = frameGray
+                    #cv2.imshow('frameDelta',thresh)
+                    #k = cv2.waitKey(5) & 0xFF
+                    if valueArray[dirTemp] > threshold:
+                            UpDownRightLeft[dirTemp] +=1
+                    else:
+                            UpDownRightLeft[4] +=1
+            sleep(0.5)
+            print(UpDownRightLeft)
+    print("I finish it !")
+    direction = np.argmax(UpDownRightLeft)
+    return direction
 
 def soEasyTest(camera, rawCapture):
-	print("Start soEasytest : ",time.time())
-	#_,frame = video.read()
-	camera.capture(rawCapture, format="bgr")
-	frame = rawCapture.array
-	rawCapture.truncate(0)
-	frame = (np.fliplr(frame)).copy()
-	h, w, ch = frame.shape
-	sideH = h//2
-	sideW = w//2
-	threshold = 0
-	UpDownRightLeft = np.array([0, 0, 0, 0, 0])
-	firstFrame = frame.copy()
-	firstFrameGray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
-	print("Finish initialize firstFrame : ",time.time())
+    print("Start soEasytest : ",time.time())
+    #_,frame = video.read()
+    camera.capture(rawCapture, format="bgr")
+    frame = rawCapture.array
+    rawCapture.truncate(0)
+    frame = (np.fliplr(frame)).copy()
+    h, w, ch = frame.shape
+    sideH = h//2
+    sideW = w//2
+    threshold = 0
+    UpDownRightLeft = np.array([0, 0, 0, 0, 0])
+    firstFrame = frame.copy()
+    firstFrameGray = cv2.cvtColor(firstFrame, cv2.COLOR_BGR2GRAY)
+    print("Finish initialize firstFrame : ",time.time())
 
 
-	while(UpDownRightLeft.sum()<7):
-		print("  ")
-		print("Start the while loop : ",time.time())
-		camera.capture(rawCapture, format="bgr")
-		frame = rawCapture.array
-		print("Finish get frame : ",time.time())
-		rawCapture.truncate(0)
-		#_,frame = video.read()
-		frame = (np.fliplr(frame)).copy()
-		print("Finish np.fliplr : ",time.time())
-		frameGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-		frameDelta = cv2.absdiff(firstFrameGray, frameGray)
-		print("Finish cv2.absdiff : ",time.time())
-		thresh = cv2.threshold(frameDelta, 50, 255, cv2.THRESH_BINARY)[1]
-		print("Finish cv2.threshold : ",time.time())
-		valueArray = np.array([0,0,0,0])
-		valueArray[0] = np.mean(thresh[:sideH,:])
-		valueArray[1] = np.mean(thresh[sideH:,:])
-		valueArray[3] = np.mean(thresh[:,sideW:])
-		valueArray[2] = np.mean(thresh[:,:sideW])
-		print("Finish 4 np.mean : ",time.time())
-		dirTemp = np.argmax(valueArray)
-		firstFrameGray = frameGray
-		# cv2.imshow('frameDelta',thresh)
-		# k = cv2.waitKey(1) & 0xFF
-		if valueArray[dirTemp] > threshold:
-			UpDownRightLeft[dirTemp] +=1
-		else:
-			UpDownRightLeft[4] +=1
-		# print(UpDownRightLeft)
-		# sleep(0.005)
-	print("I finish it !")
-	direction = np.argmax(UpDownRightLeft)
-	return direction
-
-
-
+    while(UpDownRightLeft.sum()<7):
+            print("  ")
+            print("Start the while loop : ",time.time())
+            camera.capture(rawCapture, format="bgr")
+            frame = rawCapture.array
+            print("Finish get frame : ",time.time())
+            rawCapture.truncate(0)
+            #_,frame = video.read()
+            frame = (np.fliplr(frame)).copy()
+            print("Finish np.fliplr : ",time.time())
+            frameGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            frameDelta = cv2.absdiff(firstFrameGray, frameGray)
+            print("Finish cv2.absdiff : ",time.time())
+            thresh = cv2.threshold(frameDelta, 50, 255, cv2.THRESH_BINARY)[1]
+            print("Finish cv2.threshold : ",time.time())
+            valueArray = np.array([0,0,0,0])
+            valueArray[0] = np.mean(thresh[:sideH,:])
+            valueArray[1] = np.mean(thresh[sideH:,:])
+            valueArray[3] = np.mean(thresh[:,sideW:])
+            valueArray[2] = np.mean(thresh[:,:sideW])
+            print("Finish 4 np.mean : ",time.time())
+            dirTemp = np.argmax(valueArray)
+            firstFrameGray = frameGray
+            # cv2.imshow('frameDelta',thresh)
+            # k = cv2.waitKey(1) & 0xFF
+            if valueArray[dirTemp] > threshold:
+                    UpDownRightLeft[dirTemp] +=1
+            else:
+                    UpDownRightLeft[4] +=1
+            # print(UpDownRightLeft)
+            # sleep(0.005)
+    print("I finish it !")
+    direction = np.argmax(UpDownRightLeft)
+    return direction
 
 
 
 
-# ans = timeToTest(video)
+
+
+
 # ans = soEasyTest(camera,rawCapture)
 #L,H,W = FindHandPosition(video)
 #print(L)
 #print(H,W)
-# print(ans)
 	
 
 
