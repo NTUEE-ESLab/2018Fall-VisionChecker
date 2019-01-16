@@ -15,13 +15,6 @@ import time
 
 
 # detection_graph, sess = detector_utils.load_inference_graph()
-video = cv2.VideoCapture(0)
-while True:
-	print("Start : ", time.time())
-	_,frame = video.read()
-	print("Finish Get frame : ", time.time())
-	cv2.imshow('frameDelta',frame)
-	k = cv2.waitKey(1) & 0xFF
 
 
 def FindHandPosition(camera, rawCapture):
@@ -142,12 +135,12 @@ def timeToTest(camera, rawCapture):
 	return direction
 '''
 
-def soEasyTest(camera, rawCapture):
+def soEasyTest(video):
 	print("Start soEasytest : ",time.time())
-	#_,frame = video.read()
-	camera.capture(rawCapture, format="bgr")
-	frame = rawCapture.array
-	rawCapture.truncate(0)
+	_,frame = video.read()
+	#camera.capture(rawCapture, format="bgr")
+	#frame = rawCapture.array
+	#rawCapture.truncate(0)
 	frame = (np.fliplr(frame)).copy()
 	h, w, ch = frame.shape
 	sideH = h//2
@@ -162,11 +155,11 @@ def soEasyTest(camera, rawCapture):
 	while(UpDownRightLeft.sum()<7):
 		print("  ")
 		print("Start the while loop : ",time.time())
-		camera.capture(rawCapture, format="bgr")
-		frame = rawCapture.array
+		_,frame = video.read()
+		#camera.capture(rawCapture, format="bgr")
+		#frame = rawCapture.array
 		print("Finish get frame : ",time.time())
-		rawCapture.truncate(0)
-		#_,frame = video.read()
+		#rawCapture.truncate(0)
 		frame = (np.fliplr(frame)).copy()
 		print("Finish np.fliplr : ",time.time())
 		frameGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
